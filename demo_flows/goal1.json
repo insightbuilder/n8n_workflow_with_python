@@ -1,0 +1,186 @@
+{
+  "name": "goal1",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        -60
+      ],
+      "id": "553f7c9f-04b8-4b3a-a0b6-68d39bff0225",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "61d19088-9505-4914-8d33-69997c3a2843",
+              "name": "quote",
+              "value": "={{ $json.quote }} said by {{ $json.author }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -260,
+        -60
+      ],
+      "id": "ed86bf2c-9c05-4124-86fa-c52c7af5a08d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst quotes = $input.all();\nconst randomIndex = Math.floor(Math.random() * quotes.length);\nreturn [\n  {\n    json: {\n      quote: quotes[randomIndex],\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        -60
+      ],
+      "id": "d9982605-7b69-46b7-9e23-c8d66ef2ba43",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "quote.json.quote",
+        "options": {
+          "fileName": "super_quote.txt"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        -60
+      ],
+      "id": "31cb3365-f4ad-469d-a70e-eea0d861584c",
+      "name": "Convert to File"
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "quote": "The best way to get started is to quit talking and begin doing.",
+          "author": "Walt Disney"
+        }
+      },
+      {
+        "json": {
+          "quote": "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+          "author": "Winston Churchill"
+        }
+      },
+      {
+        "json": {
+          "quote": "Don't watch the clock; do what it does. Keep going.",
+          "author": "Sam Levenson"
+        }
+      },
+      {
+        "json": {
+          "quote": "The future belongs to those who believe in the beauty of their dreams.",
+          "author": "Eleanor Roosevelt"
+        }
+      },
+      {
+        "json": {
+          "quote": "I find that the harder I work, the more luck I seem to have.",
+          "author": "Thomas Jefferson"
+        }
+      },
+      {
+        "json": {
+          "quote": "Dream big and dare to fail.",
+          "author": "Norman Vaughan"
+        }
+      },
+      {
+        "json": {
+          "quote": "It always seems impossible until it’s done.",
+          "author": "Nelson Mandela"
+        }
+      },
+      {
+        "json": {
+          "quote": "The only limit to our realization of tomorrow will be our doubts of today.",
+          "author": "Franklin D. Roosevelt"
+        }
+      },
+      {
+        "json": {
+          "quote": "Everything you’ve ever wanted is on the other side of fear.",
+          "author": "George Addair"
+        }
+      },
+      {
+        "json": {
+          "quote": "Believe you can and you're halfway there.",
+          "author": "Theodore Roosevelt"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7c57c468-e540-443d-a597-0b0a0295ed8b",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "7hpdG8bpUxkuuSjP",
+  "tags": []
+}
