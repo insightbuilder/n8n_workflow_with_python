@@ -1,0 +1,348 @@
+{
+  "name": "goal2",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -580,
+        -180
+      ],
+      "id": "cbca7823-c7af-42ff-95ae-29a8e2a46f37",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7c67d8cc-0e79-4a6f-a3df-5bb022502446",
+              "leftValue": "={{ $json.location }}",
+              "rightValue": "USA",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "2910f146-a541-422e-86d4-4552293d5d10",
+              "leftValue": "={{ $json.budget }}",
+              "rightValue": 5000,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        -180
+      ],
+      "id": "2a955eab-eee5-41b4-9779-6ded8caf8597",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "796a0612-d6e6-4383-8c7f-5738896e88f0",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        20,
+        -240
+      ],
+      "id": "416e4424-0a58-4325-87d3-41d369bceb4a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f2095ca2-d85f-4c0e-b70d-95a3f715c48d",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        20,
+        -40
+      ],
+      "id": "d31d2bff-edff-4af5-90dc-2f264049ac91",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "name",
+        "options": {
+          "fileName": "gold_leads.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        500,
+        -240
+      ],
+      "id": "4b9d8944-1486-4dd5-acf2-96d76ec00587",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -240
+      ],
+      "id": "7012fc38-0dcc-4835-84c4-279b641c2fcf",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -40
+      ],
+      "id": "5eeb6fa1-9c5a-489e-aa9d-69fe6f0ac696",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "name",
+        "options": {
+          "fileName": "silver_leads.json"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        500,
+        -40
+      ],
+      "id": "c1635321-bbfd-43e5-bd0c-688dca7f9e05",
+      "name": "Convert to File1"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "name": "Alice",
+          "email": "alice@example.com",
+          "location": "USA",
+          "budget": 8000
+        }
+      },
+      {
+        "json": {
+          "name": "Bob",
+          "email": "bob@example.com",
+          "location": "Canada",
+          "budget": 4000
+        }
+      },
+      {
+        "json": {
+          "name": "Charlie",
+          "email": "charlie@example.com",
+          "location": "USA",
+          "budget": 3000
+        }
+      },
+      {
+        "json": {
+          "name": "Dana",
+          "email": "dana@example.com",
+          "location": "USA",
+          "budget": 9000
+        }
+      },
+      {
+        "json": {
+          "name": "Eve",
+          "email": "eve@example.com",
+          "location": "UK",
+          "budget": 7000
+        }
+      },
+      {
+        "json": {
+          "name": "Frank",
+          "email": "frank@example.com",
+          "location": "USA",
+          "budget": 4500
+        }
+      },
+      {
+        "json": {
+          "name": "Grace",
+          "email": "grace@example.com",
+          "location": "USA",
+          "budget": 10000
+        }
+      },
+      {
+        "json": {
+          "name": "Heidi",
+          "email": "heidi@example.com",
+          "location": "Germany",
+          "budget": 6000
+        }
+      },
+      {
+        "json": {
+          "name": "Ivan",
+          "email": "ivan@example.com",
+          "location": "USA",
+          "budget": 5500
+        }
+      },
+      {
+        "json": {
+          "name": "Judy",
+          "email": "judy@example.com",
+          "location": "USA",
+          "budget": 2000
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bc31c48c-75b2-4d0e-81d6-c51e8661d1c0",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "sHHwvuBiegSGuvvS",
+  "tags": []
+}
