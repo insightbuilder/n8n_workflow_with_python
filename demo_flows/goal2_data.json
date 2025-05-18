@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Alice",
+    "email": "alice@example.com",
+    "location": "USA",
+    "budget": 8000
+  },
+  {
+    "name": "Bob",
+    "email": "bob@example.com",
+    "location": "Canada",
+    "budget": 4000
+  },
+  {
+    "name": "Charlie",
+    "email": "charlie@example.com",
+    "location": "USA",
+    "budget": 3000
+  },
+  {
+    "name": "Dana",
+    "email": "dana@example.com",
+    "location": "USA",
+    "budget": 9000
+  },
+  {
+    "name": "Eve",
+    "email": "eve@example.com",
+    "location": "UK",
+    "budget": 7000
+  },
+  {
+    "name": "Frank",
+    "email": "frank@example.com",
+    "location": "USA",
+    "budget": 4500
+  },
+  {
+    "name": "Grace",
+    "email": "grace@example.com",
+    "location": "USA",
+    "budget": 10000
+  },
+  {
+    "name": "Heidi",
+    "email": "heidi@example.com",
+    "location": "Germany",
+    "budget": 6000
+  },
+  {
+    "name": "Ivan",
+    "email": "ivan@example.com",
+    "location": "USA",
+    "budget": 5500
+  },
+  {
+    "name": "Judy",
+    "email": "judy@example.com",
+    "location": "USA",
+    "budget": 2000
+  }
+]
