@@ -1,0 +1,13 @@
+[
+  { "topic": "automation", "language": "Python" },
+  { "topic": "chatbot", "language": "JavaScript" },
+  { "topic": "machine-learning", "language": "Jupyter Notebook" },
+  { "topic": "api", "language": "Go" },
+  { "topic": "web", "language": "Ruby" },
+  { "topic": "cli", "language": "Rust" },
+  { "topic": "data-visualization", "language": "TypeScript" },
+  { "topic": "devops", "language": "Shell" },
+  { "topic": "n8n", "language": "JavaScript" },
+  { "topic": "graphql", "language": "Kotlin" }
+]
+

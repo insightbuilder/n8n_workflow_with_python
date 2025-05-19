@@ -1,0 +1,149 @@
+{
+  "name": "goal3",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        80
+      ],
+      "id": "1a7f847f-df2f-4bd3-92d9-577277738480",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -140,
+        80
+      ],
+      "id": "ebbe48df-203e-42e4-b856-0d785cf6faa1",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        100
+      ],
+      "id": "394c1c0f-b0dd-40d2-99e6-6705bb6c4df3",
+      "name": "Wait",
+      "webhookId": "b62e0b07-600f-4e61-a51b-b0f5bb3a8beb"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/search/repositories?q=topic:{{ $json.topic }}+language:{{ $json.language }}&sort=stars&order=desc&per_page=5",
+        "sendQuery": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        80
+      ],
+      "id": "4d74e03e-a259-4962-891b-4ac21882a863",
+      "name": "git_req"
+    },
+    {
+      "parameters": {
+        "url": "=https://jsonplaceholder.typicode.com/posts/1",
+        "sendQuery": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        280
+      ],
+      "id": "7f7b333e-3724-4c34-a1ab-4c377f794db0",
+      "name": "json_placeholder"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "topic": "automation",
+          "language": "Python"
+        }
+      },
+      {
+        "json": {
+          "topic": "chatbot",
+          "language": "JavaScript"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "json_placeholder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "git_req": {
+      "main": [
+        []
+      ]
+    },
+    "json_placeholder": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "dbdec93b-35a8-4c4c-8140-1edbaea45d39",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "DiydxEYFgFYJ3Mk0",
+  "tags": []
+}

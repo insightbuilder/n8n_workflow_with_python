@@ -1,0 +1,160 @@
+{
+  "name": "goal3_no_loop",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        80
+      ],
+      "id": "d67675f4-73b3-43da-95fe-4ffea9b78450",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=https://jsonplaceholder.typicode.com/posts/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1420,
+        460
+      ],
+      "id": "a4e4b717-f3e5-4c13-b655-3c2f72f56f1c",
+      "name": "json_placeholder"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/search/repositories?q=topic:{{ $json.topic }}+language:{{ $json.language }}&sort=stars&order=desc&per_page=5",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        20,
+        80
+      ],
+      "id": "5ffc9afd-834e-45b2-b43a-ff1ca4ad02d5",
+      "name": "github_api_request"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "topic": "automation",
+          "language": "Python"
+        }
+      },
+      {
+        "json": {
+          "topic": "chatbot",
+          "language": "JavaScript"
+        }
+      },
+      {
+        "json": {
+          "topic": "machine-learning",
+          "language": "Jupyter Notebook"
+        }
+      },
+      {
+        "json": {
+          "topic": "api",
+          "language": "Go"
+        }
+      },
+      {
+        "json": {
+          "topic": "web",
+          "language": "Ruby"
+        }
+      },
+      {
+        "json": {
+          "topic": "cli",
+          "language": "Rust"
+        }
+      },
+      {
+        "json": {
+          "topic": "data-visualization",
+          "language": "TypeScript"
+        }
+      },
+      {
+        "json": {
+          "topic": "devops",
+          "language": "Shell"
+        }
+      },
+      {
+        "json": {
+          "topic": "n8n",
+          "language": "JavaScript"
+        }
+      },
+      {
+        "json": {
+          "topic": "graphql",
+          "language": "Kotlin"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "github_api_request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json_placeholder": {
+      "main": [
+        []
+      ]
+    },
+    "github_api_request": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3076ca15-dea2-439f-b282-6f511fb0e3ca",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "0womco9GXtATREPp",
+  "tags": [
+    {
+      "name": "without_soln",
+      "id": "6tL5SS7vV8xtZxv6",
+      "createdAt": "2025-05-19T06:50:44.720Z",
+      "updatedAt": "2025-05-19T06:50:44.720Z"
+    }
+  ]
+}

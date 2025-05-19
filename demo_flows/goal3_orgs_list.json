@@ -1,0 +1,22 @@
+[
+  {
+    "organization": "google",
+    "description": "Projects by Google"
+  },
+  {
+    "organization": "microsoft",
+    "description": "Microsoft’s open source projects"
+  },
+  {
+    "organization": "vercel",
+    "description": "Vercel and Next.js ecosystem"
+  },
+  {
+    "organization": "netlify",
+    "description": "Netlify’s developer tools"
+  },
+  {
+    "organization": "openai",
+    "description": "OpenAI SDKs and APIs"
+  }
+]
