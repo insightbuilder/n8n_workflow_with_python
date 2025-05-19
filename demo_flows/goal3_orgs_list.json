@@ -1,22 +1,68 @@
+
 [
-  {
-    "organization": "google",
-    "description": "Projects by Google"
-  },
-  {
-    "organization": "microsoft",
-    "description": "Microsoft’s open source projects"
-  },
-  {
-    "organization": "vercel",
-    "description": "Vercel and Next.js ecosystem"
-  },
-  {
-    "organization": "netlify",
-    "description": "Netlify’s developer tools"
-  },
-  {
-    "organization": "openai",
-    "description": "OpenAI SDKs and APIs"
-  }
+  { "organization": "google", "api_url": "https://api.github.com/users/google/repos" },
+  { "organization": "microsoft", "api_url": "https://api.github.com/users/microsoft/repos" },
+  { "organization": "facebook", "api_url": "https://api.github.com/users/facebook/repos" },
+  { "organization": "apple", "api_url": "https://api.github.com/users/apple/repos" },
+  { "organization": "amazon", "api_url": "https://api.github.com/users/amazon/repos" },
+  { "organization": "netflix", "api_url": "https://api.github.com/users/netflix/repos" },
+  { "organization": "airbnb", "api_url": "https://api.github.com/users/airbnb/repos" },
+  { "organization": "uber", "api_url": "https://api.github.com/users/uber/repos" },
+  { "organization": "paypal", "api_url": "https://api.github.com/users/paypal/repos" },
+  { "organization": "stripe", "api_url": "https://api.github.com/users/stripe/repos" },
+  { "organization": "twilio", "api_url": "https://api.github.com/users/twilio/repos" },
+  { "organization": "slackhq", "api_url": "https://api.github.com/users/slackhq/repos" },
+  { "organization": "mozilla", "api_url": "https://api.github.com/users/mozilla/repos" },
+  { "organization": "docker", "api_url": "https://api.github.com/users/docker/repos" },
+  { "organization": "kubernetes", "api_url": "https://api.github.com/users/kubernetes/repos" },
+  { "organization": "tensorflow", "api_url": "https://api.github.com/users/tensorflow/repos" },
+  { "organization": "pytorch", "api_url": "https://api.github.com/users/pytorch/repos" },
+  { "organization": "apache", "api_url": "https://api.github.com/users/apache/repos" },
+  { "organization": "linux", "api_url": "https://api.github.com/users/linux/repos" },
+  { "organization": "nodejs", "api_url": "https://api.github.com/users/nodejs/repos" },
+  { "organization": "reactjs", "api_url": "https://api.github.com/users/reactjs/repos" },
+  { "organization": "vuejs", "api_url": "https://api.github.com/users/vuejs/repos" },
+  { "organization": "angular", "api_url": "https://api.github.com/users/angular/repos" },
+  { "organization": "nestjs", "api_url": "https://api.github.com/users/nestjs/repos" },
+  { "organization": "d3", "api_url": "https://api.github.com/users/d3/repos" },
+  { "organization": "chartjs", "api_url": "https://api.github.com/users/chartjs/repos" },
+  { "organization": "graphql", "api_url": "https://api.github.com/users/graphql/repos" },
+  { "organization": "apollo", "api_url": "https://api.github.com/users/apollo/repos" },
+  { "organization": "prisma", "api_url": "https://api.github.com/users/prisma/repos" },
+  { "organization": "typeorm", "api_url": "https://api.github.com/users/typeorm/repos" },
+  { "organization": "sequelize", "api_url": "https://api.github.com/users/sequelize/repos" },
+  { "organization": "laravel", "api_url": "https://api.github.com/users/laravel/repos" },
+  { "organization": "symfony", "api_url": "https://api.github.com/users/symfony/repos" },
+  { "organization": "django", "api_url": "https://api.github.com/users/django/repos" },
+  { "organization": "flask", "api_url": "https://api.github.com/users/flask/repos" },
+  { "organization": "fastapi", "api_url": "https://api.github.com/users/tiangolo/repos" },
+  { "organization": "spring-projects", "api_url": "https://api.github.com/users/spring-projects/repos" },
+  { "organization": "dotnet", "api_url": "https://api.github.com/users/dotnet/repos" },
+  { "organization": "ruby", "api_url": "https://api.github.com/users/ruby/repos" },
+  { "organization": "rails", "api_url": "https://api.github.com/users/rails/repos" },
+  { "organization": "golang", "api_url": "https://api.github.com/users/golang/repos" },
+  { "organization": "rust-lang", "api_url": "https://api.github.com/users/rust-lang/repos" },
+  { "organization": "elixir-lang", "api_url": "https://api.github.com/users/elixir-lang/repos" },
+  { "organization": "haskell", "api_url": "https://api.github.com/users/haskell/repos" },
+  { "organization": "scala", "api_url": "https://api.github.com/users/scala/repos" },
+  { "organization": "clojure", "api_url": "https://api.github.com/users/clojure/repos" },
+  { "organization": "perl", "api_url": "https://api.github.com/users/perl/repos" },
+  { "organization": "php", "api_url": "https://api.github.com/users/php/repos" },
+  { "organization": "python", "api_url": "https://api.github.com/users/python/repos" },
+  { "organization": "java", "api_url": "https://api.github.com/users/java/repos" },
+  { "organization": "csharp", "api_url": "https://api.github.com/users/csharp/repos" },
+  { "organization": "c", "api_url": "https://api.github.com/users/c/repos" },
+  { "organization": "cpp", "api_url": "https://api.github.com/users/cpp/repos" },
+  { "organization": "fortran", "api_url": "https://api.github.com/users/fortran/repos" },
+  { "organization": "matlab", "api_url": "https://api.github.com/users/matlab/repos" },
+  { "organization": "r", "api_url": "https://api.github.com/users/r/repos" },
+  { "organization": "julia", "api_url": "https://api.github.com/users/julia/repos" },
+  { "organization": "typescript", "api_url": "https://api.github.com/users/typescript/repos" },
+  { "organization": "coffeescript", "api_url": "https://api.github.com/users/coffeescript/repos" },
+  { "organization": "babel", "api_url": "https://api.github.com/users/babel/repos" },
+  { "organization": "webpack", "api_url": "https://api.github.com/users/webpack/repos" },
+  { "organization": "rollup", "api_url": "https://api.github.com/users/rollup/repos" },
+  { "organization": "parcel", "api_url": "https://api.github.com/users/parcel/repos" },
+  { "organization": "gulpjs", "api_url": "https://api.github.com/users/gulpjs/repos" }
 ]
+
