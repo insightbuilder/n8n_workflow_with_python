@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Alice",
+    "email": "alice@example.com",
+    "location": "New York",
+    "budget": 5000,
+    "score": 78,
+    "source": "Google Sheets"
+  },
+  {
+    "name": "Bob",
+    "email": "bob@example.com",
+    "location": "San Francisco",
+    "budget": 2000,
+    "score": 45,
+    "source": "Google Sheets"
+  },
+  {
+    "name": "Charlie",
+    "email": "charlie@example.com",
+    "location": "Chicago",
+    "budget": 7500,
+    "score": 88,
+    "source": "Google Sheets"
+  },
+  {
+    "name": "Daisy",
+    "email": "daisy@example.com",
+    "location": "Austin",
+    "budget": 6000,
+    "score": 50,
+    "source": "Google Sheets"
+  }
+]
+

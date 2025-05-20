@@ -1,0 +1,21 @@
+[
+  {
+    "email": "alice@example.com",
+    "last_contacted": "2024-12-01",
+    "status": "Proposal Sent",
+    "rep": "John"
+  },
+  {
+    "email": "charlie@example.com",
+    "last_contacted": "2024-12-10",
+    "status": "Negotiation",
+    "rep": "Lisa"
+  },
+  {
+    "email": "eve@example.com",
+    "last_contacted": "2024-12-02",
+    "status": "Cold Lead",
+    "rep": "Tom"
+  }
+]
+

@@ -1,0 +1,177 @@
+{
+  "name": "goal5_merge_node",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -600,
+        -100
+      ],
+      "id": "5b6ba065-3e88-4664-b836-10b41887e6d9",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        -200
+      ],
+      "id": "46656785-e01c-4e32-bb7b-3cf72e41d5dc",
+      "name": "From_Google_table"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        -160,
+        -100
+      ],
+      "id": "b2e3d3d7-7e6c-4266-85f2-6a17c8246993",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        0
+      ],
+      "id": "680b3c7a-dcaf-4f82-9b17-336226de126d",
+      "name": "From_Air_table"
+    }
+  ],
+  "pinData": {
+    "From_Google_table": [
+      {
+        "json": {
+          "name": "Alice",
+          "email": "alice@example.com",
+          "location": "New York",
+          "budget": 5000,
+          "score": 78,
+          "source": "Google Sheets"
+        }
+      },
+      {
+        "json": {
+          "name": "Bob",
+          "email": "bob@example.com",
+          "location": "San Francisco",
+          "budget": 2000,
+          "score": 45,
+          "source": "Google Sheets"
+        }
+      },
+      {
+        "json": {
+          "name": "Charlie",
+          "email": "charlie@example.com",
+          "location": "Chicago",
+          "budget": 7500,
+          "score": 88,
+          "source": "Google Sheets"
+        }
+      },
+      {
+        "json": {
+          "name": "Daisy",
+          "email": "daisy@example.com",
+          "location": "Austin",
+          "budget": 6000,
+          "score": 50,
+          "source": "Google Sheets"
+        }
+      }
+    ],
+    "From_Air_table": [
+      {
+        "json": {
+          "email": "alice@example.com",
+          "last_contacted": "2024-12-01",
+          "status": "Proposal Sent",
+          "rep": "John"
+        }
+      },
+      {
+        "json": {
+          "email": "charlie@example.com",
+          "last_contacted": "2024-12-10",
+          "status": "Negotiation",
+          "rep": "Lisa"
+        }
+      },
+      {
+        "json": {
+          "email": "eve@example.com",
+          "last_contacted": "2024-12-02",
+          "status": "Cold Lead",
+          "rep": "Tom"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "From_Google_table",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "From_Air_table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "From_Google_table": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "From_Air_table": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "19b3d29e-99de-438c-b11e-735e4357fa1d",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "Smuqrls7eENfrL9Q",
+  "tags": []
+}
