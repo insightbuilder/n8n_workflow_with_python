@@ -1,0 +1,285 @@
+{
+  "name": "goal4_jsonplaceholder",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        0
+      ],
+      "id": "4eb344ac-b6be-4baa-ad1e-d2b7c08120ba",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b8c39bfc-b324-4587-b059-b2687247edcb",
+              "name": "first_name",
+              "value": "={{ $json.name.split(\" \")[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "c1989229-54d5-4160-a7c9-1c866ab852ef",
+              "name": "last_name",
+              "value": "={{ $json.name.split(\" \")[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        -180
+      ],
+      "id": "6551905c-273f-48b6-a4ee-6807f2f24a66",
+      "name": "extract_names"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03cde5d6-28da-4833-a10f-f18d5516cccb",
+              "name": "street_address",
+              "value": "={{ $json.address.street }}",
+              "type": "string"
+            },
+            {
+              "id": "2f92968f-2d54-4b29-91a9-7087c4ed3fbc",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "63852373-83de-496c-96f1-4dcdef89507f",
+              "name": "company_name",
+              "value": "={{ $json.company.name }}",
+              "type": "string"
+            },
+            {
+              "id": "4958c49b-4d23-4784-a0e2-6ea343193525",
+              "name": "company_subword",
+              "value": "={{ $json.company.catchPhrase }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        20
+      ],
+      "id": "f05f12e5-ca54-446a-8189-21fcae86f85e",
+      "name": "renaming_remove_fields"
+    },
+    {
+      "parameters": {
+        "url": "https://jsonplaceholder.typicode.com/users",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -280,
+        -80
+      ],
+      "id": "87cf17bb-9f94-470a-b213-a64dda3c0d8d",
+      "name": "jsonplaceholder_request"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/rate_limit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -300,
+        300
+      ],
+      "id": "246730e5-1c5e-41f7-9a20-e975df5ce94a",
+      "name": "gh_request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bbc54f72-a50f-481b-acc6-30ffa577cce0",
+              "name": "resources.core.reset",
+              "value": "={{ new Date($json.resources.core.reset * 1000).toLocaleString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        300
+      ],
+      "id": "d76d79b5-2d5d-4c6f-b20d-702a4f39359c",
+      "name": "readable_datetime"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b8c39bfc-b324-4587-b059-b2687247edcb",
+              "name": "full_address",
+              "value": "={{ $json.name }}\n{{ $json.address.street }}\n{{ $json.address.suite }}\n{{ $json.address.city }}\n{{ $json.address.zipcode }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        -340
+      ],
+      "id": "f1b1312d-410f-47e5-9d5e-590636e53612",
+      "name": "combine_fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = Object.values($input.first().json.resources)\n\nreturn data"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -40,
+        500
+      ],
+      "id": "abd62915-9f15-43bd-988d-4de62793f776",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d3495c8c-4ca6-4af0-9b22-1a9deca3ed7e",
+              "name": "resource",
+              "value": "={{ $json.resource }}",
+              "type": "string"
+            },
+            {
+              "id": "04dbd9b3-f4e0-4cea-abfd-1d01ff80b844",
+              "name": "used",
+              "value": "={{ $json.used }}",
+              "type": "number"
+            },
+            {
+              "id": "ce8284de-6759-4a27-92ab-a27e0d7f4568",
+              "name": "reset",
+              "value": "={{ $json.reset }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        500
+      ],
+      "id": "fa4317cc-ecaf-4e54-8618-242a8150ee46",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "jsonplaceholder_request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "gh_request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "jsonplaceholder_request": {
+      "main": [
+        [
+          {
+            "node": "extract_names",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "renaming_remove_fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "combine_fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gh_request": {
+      "main": [
+        [
+          {
+            "node": "readable_datetime",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a2f2559e-c87e-4f2a-a4f6-8e2a4f16314f",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "LkZ0LsxUN0cihvSx",
+  "tags": []
+}

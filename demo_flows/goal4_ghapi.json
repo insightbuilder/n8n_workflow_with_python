@@ -1,0 +1,333 @@
+{
+  "name": "goal4_ghapi",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        -40
+      ],
+      "id": "31ec9ddc-9087-4c82-9ef9-5bf523a53b2f",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/rate_limit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        -40
+      ],
+      "id": "0d00259d-e5ee-4a5d-9adb-087e212c35f5",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fefe0afc-5f96-4621-a93e-1f890bf31d95",
+              "name": "resources",
+              "value": "={{ \n{all_res: [$json.resources.core,$json.resources.search,$json.resources.integration_manifest,  $json.resources.graphql] }\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        -300
+      ],
+      "id": "0039dbf7-8266-4b4c-821b-bc2fcb60ab89",
+      "name": "creating_objects"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "96e1658f-9c5c-41d6-bece-7e011df01e67",
+              "name": "core_reset_time",
+              "value": "={{ new Date($json.resources.core.reset * 1000).toLocaleString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        60,
+        -100
+      ],
+      "id": "fd1b8143-aa92-4ee7-b385-a79876e85d5e",
+      "name": "readable_time"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json.resources\n\nreturn Object.values(data)"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        60,
+        100
+      ],
+      "id": "403bac68-5d99-48c4-91ed-b4c182a28ce6",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        280,
+        100
+      ],
+      "id": "9940864d-8ff7-411c-b537-79165dd588af",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json.resources\n\nreturn Object.values(data)"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        60,
+        440
+      ],
+      "id": "f89060cb-dca0-45aa-9689-7bdb6a60fca8",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        280,
+        440
+      ],
+      "id": "8cce891e-83d5-4e6c-89fd-17207cf69cb0",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "63165bd2-5ca1-48a3-93fd-cf7cdbb058ce",
+              "name": "resource",
+              "value": "={{ $json.resource }}",
+              "type": "string"
+            },
+            {
+              "id": "db99cb13-f447-4c3e-8afa-3f02acfca582",
+              "name": "reset",
+              "value": "={{ $json.reset }}",
+              "type": "string"
+            },
+            {
+              "id": "ffdd2371-0b8e-46b2-bc24-933defdec268",
+              "name": "remaining",
+              "value": "={{ $json.remaining }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        500,
+        200
+      ],
+      "id": "47495806-8c30-4079-9249-0fec64f44065",
+      "name": "remove_fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "63165bd2-5ca1-48a3-93fd-cf7cdbb058ce",
+              "name": "your_resource",
+              "value": "={{ $json.resource }}",
+              "type": "string"
+            },
+            {
+              "id": "db99cb13-f447-4c3e-8afa-3f02acfca582",
+              "name": "api_reset",
+              "value": "={{ $json.reset }}",
+              "type": "string"
+            },
+            {
+              "id": "ffdd2371-0b8e-46b2-bc24-933defdec268",
+              "name": "resource_remaining",
+              "value": "={{ $json.remaining }}",
+              "type": "string"
+            },
+            {
+              "id": "9adb1350-b657-42ee-93b1-1ed45b4477f9",
+              "name": "resource_limit",
+              "value": "={{ $json.limit }}",
+              "type": "number"
+            },
+            {
+              "id": "2116e85e-003a-4aa8-b5e2-1c91072ba5b6",
+              "name": "resource_used",
+              "value": "={{ $json.used }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        500,
+        540
+      ],
+      "id": "676c7fa1-43f4-420c-a657-287d3617f19f",
+      "name": "rename_fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "creating_objects",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "readable_time",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "creating_objects": {
+      "main": [
+        []
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "remove_fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "rename_fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove_fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "rename_fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "73a4f555-a195-4d0f-ace1-8163011eea4b",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "40D604g7a9RBQpHd",
+  "tags": []
+}

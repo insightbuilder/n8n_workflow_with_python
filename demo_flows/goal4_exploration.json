@@ -1,0 +1,178 @@
+{
+  "name": "goal4_exploration",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -460,
+        0
+      ],
+      "id": "ceb2a0dd-c9c0-43dc-8097-3b65b3b3a9a2",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://api.github.com/rate_limit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "3b42b36c-866d-40b7-a48e-892806c46e3e",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f5d97bfe-468e-473a-ab49-ffa062c4e748",
+              "name": "core_limit",
+              "value": "={{ $json.resources.core.limit }}",
+              "type": "number"
+            },
+            {
+              "id": "9c6cb9cb-24c5-4ee6-a232-35db057da096",
+              "name": "core_remaining",
+              "value": "={{ $json.resources.core.remaining }}",
+              "type": "number"
+            },
+            {
+              "id": "e90301fa-ec6e-409d-9b59-2b46f8b0429d",
+              "name": "core_reset",
+              "value": "={{ $json.resources.core.reset }}",
+              "type": "number"
+            },
+            {
+              "id": "57b5cf35-6d11-465f-9f32-1276748aaf10",
+              "name": "core_used",
+              "value": "={{ $json.resources.core.used }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -200
+      ],
+      "id": "46bc1049-9a42-4b5b-80f7-495ec07105f7",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst item = $input.first()\nconsole.log(item)\nconst core_reset_time = new Date($input.first().json.resources.core.reset * 1000)\n\nitem.json.core_reset_time = core_reset_time.toLocaleString();\n\nreturn item;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        -40
+      ],
+      "id": "718c86b3-87d8-4e5c-937b-dd9246625c9b",
+      "name": "date_conversion"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item  = $input.first().json.resources\n\nconst flattened_values = Object.values(item); // returns the values\nconst flattened_keyes = Object.keys(item); // returns the values\n\nreturn [{\"values\": flattened_values, \"keys\": flattened_keyes}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        120
+      ],
+      "id": "ee364528-9f02-4ce9-90cc-b2891d3c6d73",
+      "name": "flattened"
+    },
+    {
+      "parameters": {
+        "jsCode": "// console.log($input.params)\n// console.log($input.context) \n\nconst data = $input.first().json.resources\nconst withDates = Object.entries(data).map(([key, val]) => ({\n  ...val,\n  resetReadable: new Date(val.reset * 1000).toLocaleString()\n}));\nreturn withDates"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        80,
+        300
+      ],
+      "id": "48bb40e7-0b9a-4a36-be39-bef6a97f5be8",
+      "name": "reset_date_readable"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json.resources\n\nconst usedResources = Object.values(data).filter(r => r.used > 0);\n\nreturn usedResources"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ],
+      "id": "47756124-4543-43fa-aedf-3422192fabe8",
+      "name": "used_resource"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "date_conversion",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "flattened",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "reset_date_readable",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "used_resource",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "67553c10-58a4-43b7-8e64-080bcdf70224",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "WeL4VcK2C6PJZzuN",
+  "tags": []
+}
