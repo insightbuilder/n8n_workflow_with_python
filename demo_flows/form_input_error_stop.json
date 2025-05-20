@@ -1,0 +1,75 @@
+{
+  "name": "form_input_error_stop",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Test Error",
+        "formDescription": "Sending this will take you to error",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "num1",
+              "fieldType": "number",
+              "placeholder": "2"
+            },
+            {
+              "fieldLabel": "num2",
+              "fieldType": "number",
+              "placeholder": "3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        -100
+      ],
+      "id": "3d30254d-4859-420b-8fc5-5b2b031b24c4",
+      "name": "On form submission",
+      "webhookId": "a257eac1-bb24-45de-83ae-2b5a885beda4"
+    },
+    {
+      "parameters": {
+        "errorMessage": "={{ $json.num1 }} is the form that errored"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        -100
+      ],
+      "id": "9753696b-64ae-46e4-9ad5-63020256dcd1",
+      "name": "Stop and Error"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "3KbKtMx28nijJyPR"
+  },
+  "versionId": "b2d6a319-6abc-47c6-850c-ceecc546e52f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "vk2P7zRLSpNQT08H",
+  "tags": []
+}

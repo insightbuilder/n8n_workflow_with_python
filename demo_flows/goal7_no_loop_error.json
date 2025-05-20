@@ -1,0 +1,179 @@
+{
+  "name": "goal7_no_loop_error",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        80
+      ],
+      "id": "201b2c65-e03c-42e5-851e-487a7e17ce86",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=https://jsonplaceholder.typicode.com/posts/1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1420,
+        460
+      ],
+      "id": "f593e976-47a8-4ea7-9ed3-cc8b53290e6f",
+      "name": "json_placeholder"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/search/repositories?q=topic:{{ $json.topic }}+language:{{ $json.language }}&sort=stars&order=desc&per_page=5",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        20,
+        80
+      ],
+      "id": "7d7732fc-4a2f-4988-bda3-bd29ddeeaf32",
+      "name": "github_api_request"
+    },
+    {
+      "parameters": {
+        "errorMessage": "The API limit reached"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        320,
+        80
+      ],
+      "id": "f931983f-9cc1-4a69-8c91-7545c7cdf713",
+      "name": "Stop and Error"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "topic": "automation",
+          "language": "Python"
+        }
+      },
+      {
+        "json": {
+          "topic": "chatbot",
+          "language": "JavaScript"
+        }
+      },
+      {
+        "json": {
+          "topic": "machine-learning",
+          "language": "Jupyter Notebook"
+        }
+      },
+      {
+        "json": {
+          "topic": "api",
+          "language": "Go"
+        }
+      },
+      {
+        "json": {
+          "topic": "web",
+          "language": "Ruby"
+        }
+      },
+      {
+        "json": {
+          "topic": "cli",
+          "language": "Rust"
+        }
+      },
+      {
+        "json": {
+          "topic": "data-visualization",
+          "language": "TypeScript"
+        }
+      },
+      {
+        "json": {
+          "topic": "devops",
+          "language": "Shell"
+        }
+      },
+      {
+        "json": {
+          "topic": "n8n",
+          "language": "JavaScript"
+        }
+      },
+      {
+        "json": {
+          "topic": "graphql",
+          "language": "Kotlin"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "github_api_request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "json_placeholder": {
+      "main": [
+        []
+      ]
+    },
+    "github_api_request": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5a815371-bf66-4c67-b73e-492f31e163f8",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "sHc9vo171izapyJs",
+  "tags": [
+    {
+      "createdAt": "2025-05-20T11:44:57.068Z",
+      "updatedAt": "2025-05-20T11:44:57.068Z",
+      "id": "OJfirir39z0QH06J",
+      "name": "error_handled"
+    }
+  ]
+}
