@@ -1,0 +1,304 @@
+{
+  "name": "goal8_agent_chat_automation",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        -20
+      ],
+      "id": "858d1839-fb9b-4d25-bad9-22a4bb2fe807",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        400
+      ],
+      "id": "cfffb3e9-493c-4818-8d84-8d86a1847cd2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCgHOdrD9sJtpacb",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"hook\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"context\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"openlooop\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"closure\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"next video hook\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        400
+      ],
+      "id": "12aa030e-44f1-4d92-82c4-f307c14b29c7",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.name }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an expert youtube video script writer. Given a topic by the user, you have to provide the hook, context, one open loop,  closure to introduce the topic and finally end with next video hook.\nDo not provide any other information on your background, or how you are generating the scripts. Keep the entire script within 350 words always"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        320,
+        180
+      ],
+      "id": "856c5303-4f8f-4321-ab06-286bfac2c603",
+      "name": "script_writer"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7daa19f0-55fd-4a54-b503-3878750e136a",
+              "name": "FullScript",
+              "value": "=Here is the full Script: \nHook:\n{{ $json.output.hook }}\nContext:\n{{ $json.output.context }}\nOpenloop:\n{{ $json.output.openlooop }}\nClosure:\n{{ $json.output.closure }}\nnext video hook:\n{{ $json.output['next video hook'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        180
+      ],
+      "id": "49cde8af-f871-497f-8dcd-0c212cb3847e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        -160
+      ],
+      "id": "2945d8d6-6d2a-4f76-a24a-61e680279fd1",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCgHOdrD9sJtpacb",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t  \"title1\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title2\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title3\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title4\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title5\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        600,
+        -160
+      ],
+      "id": "50b0dfc8-7a2a-4988-97f5-178a053a574d",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7caaaae2-0eb8-4392-a919-50d906c44abd",
+              "name": "output.title1",
+              "value": "={{ $json.output.title1 }}",
+              "type": "string"
+            },
+            {
+              "id": "78dfd7bb-16ba-454e-b5fb-faf43b2d2563",
+              "name": "output.title2",
+              "value": "={{ $json.output.title2 }}",
+              "type": "string"
+            },
+            {
+              "id": "29fefcb6-d077-464a-8d55-193d6ed059ce",
+              "name": "output.title3",
+              "value": "={{ $json.output.title3 }}",
+              "type": "string"
+            },
+            {
+              "id": "d6563b0a-a714-4da3-b64a-8a425e47b74b",
+              "name": "output.title4",
+              "value": "={{ $json.output.title4 }}",
+              "type": "string"
+            },
+            {
+              "id": "68e79d96-381f-4dc5-a139-aa27c427c7b8",
+              "name": "output.title5",
+              "value": "={{ $json.output.title5 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        700,
+        -380
+      ],
+      "id": "50031b88-3bef-4738-8b06-ee95cab372f8",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You will be given a topic or a theme which can be from any stream or discipline. You have to create the youtube video titles starting with title1 to title5. The topic or theeme is below\n\n{{ $json.name }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an expert youtube video script writer. Given a topic by the user, you have to provide the hook, context, one open loop,  closure to introduce the topic and finally end with next video hook.\nDo not provide any other information on your background, or how you are generating the scripts. Keep the entire script within 350 words always"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        340,
+        -380
+      ],
+      "id": "bf85daf3-b6b0-435f-bd27-094c1972f483",
+      "name": "topic_generator"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "name": "Provide the video script on using AI automation to write story scripts"
+        }
+      }
+    ],
+    "Edit Fields": [
+      {
+        "json": {
+          "FullScript": "Here is the full Script: \nHook:\nImagine having a writing assistant that never tires, never runs out of ideas, and can churn out scripts in minutes. Sounds like science fiction? Welcome to the future of storytelling!\nContext:\nIn today's video, we’re diving deep into the world of AI automation and how it's revolutionizing the way we write story scripts. Whether you’re a seasoned screenwriter or just starting out, AI tools can enhance your creative process, streamline your workflow, and even help generate fresh ideas when you hit a block.\nOpenloop:\nBut how exactly do these AI tools work, and can they truly replicate the human touch in storytelling? Stick around as we break down the mechanics behind AI writers and offer insights that'll change how you look at scriptwriting!\nClosure:\nBy the end of this video, you'll not only understand how to effectively use AI for scriptwriting, but you’ll also be inspired to unleash your creativity in new ways. Are you ready to take your storytelling to the next level?\nnext video hook:\nAnd don’t miss our next video where we’ll explore the top AI tools available today, reviewing their unique features and how they can fit into your writing routine!"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "topic_generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "script_writer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "script_writer",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "script_writer": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "topic_generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "topic_generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic_generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5dd27b7f-84e7-4201-9270-c61bc8188b02",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "PUhXuD7ZnJwoZQTr",
+  "tags": []
+}
