@@ -1,0 +1,136 @@
+{
+  "name": "goal9_pdf_write_gdocs",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        -20
+      ],
+      "id": "bc23f8c3-3e96-47a5-a54b-7bd66ed528bc",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "This is super awesome"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        0,
+        -120
+      ],
+      "id": "e3a66c29-6f28-4762-ac24-74737ba3c1ad",
+      "name": "Google Docs",
+      "retryOnFail": true,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "X6ZeNMUPxGbji1jZ",
+          "name": "Google Docs account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "get"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        0,
+        100
+      ],
+      "id": "c9aa30e9-b956-4dbc-bac8-bca42108375f",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "X6ZeNMUPxGbji1jZ",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.documentId }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        240,
+        -180
+      ],
+      "id": "50af25b7-5080-46d7-992f-a27164407d29",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oXI4Nor8OLLuH5qd",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d273fcec-0fdd-4b79-a5fa-0a160a6a7ae1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "AIn66cgbU09oW0d0",
+  "tags": []
+}

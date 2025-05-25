@@ -1,0 +1,112 @@
+{
+  "name": "goal9_notion_db_page",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        -40
+      ],
+      "id": "4ec3341e-6599-4599-a711-54eab26d0070",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "faee8cef-aa84-4d2c-8f49-1fce1818563b",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -120,
+        -40
+      ],
+      "id": "34c6857b-60a8-42a4-b431-dc7cbdfff8b4",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1b084ade-96ac-8077-a561-f160d218b134",
+          "mode": "list",
+          "cachedResultName": "yt_scripts",
+          "cachedResultUrl": "https://www.notion.so/1b084ade96ac8077a561f160d218b134"
+        },
+        "title": "={{ $json.name }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        100,
+        -40
+      ],
+      "id": "e67d8d2d-02d5-4bdb-9cb2-64ecda7541e3",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "LFXGIOi24ARuAYI5",
+          "name": "Notion account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "name": "First item",
+          "code": 1
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6c4c9315-8d6a-4c2f-9744-9b2de647d605",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "P114B03voxt3mrCL",
+  "tags": []
+}

@@ -1,0 +1,319 @@
+{
+  "name": "goal9_agent_to_notion",
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -120,
+        160
+      ],
+      "id": "2492c60b-15b7-4225-ab2d-5f849b869cbd",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCgHOdrD9sJtpacb",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t  \"title1\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title2\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title3\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title4\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n      \"title5\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        160
+      ],
+      "id": "5942fd83-4672-4368-9717-6c76bed8a6ed",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7caaaae2-0eb8-4392-a919-50d906c44abd",
+              "name": "output.title1",
+              "value": "={{ $json.output.title1 }}",
+              "type": "string"
+            },
+            {
+              "id": "78dfd7bb-16ba-454e-b5fb-faf43b2d2563",
+              "name": "output.title2",
+              "value": "={{ $json.output.title2 }}",
+              "type": "string"
+            },
+            {
+              "id": "29fefcb6-d077-464a-8d55-193d6ed059ce",
+              "name": "output.title3",
+              "value": "={{ $json.output.title3 }}",
+              "type": "string"
+            },
+            {
+              "id": "d6563b0a-a714-4da3-b64a-8a425e47b74b",
+              "name": "output.title4",
+              "value": "={{ $json.output.title4 }}",
+              "type": "string"
+            },
+            {
+              "id": "68e79d96-381f-4dc5-a139-aa27c427c7b8",
+              "name": "output.title5",
+              "value": "={{ $json.output.title5 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        200,
+        -180
+      ],
+      "id": "cb260d15-95c0-4853-b0cb-8b27d294c802",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You will be given a topic or a theme which can be from any stream or discipline. You have to create the youtube video titles starting with title1 to title5. The topic or theeme is below\n{{ $json.input }}",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -100,
+        -40
+      ],
+      "id": "31401966-faf2-4b4f-ac40-a1e67cc8e255",
+      "name": "topic_generator"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        0
+      ],
+      "id": "bf6d2d8b-8d92-4e4b-aab8-c6f03bd2d8e5",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1b084ade-96ac-8077-a561-f160d218b134",
+          "mode": "list",
+          "cachedResultName": "yt_scripts",
+          "cachedResultUrl": "https://www.notion.so/1b084ade96ac8077a561f160d218b134"
+        },
+        "title": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        620,
+        140
+      ],
+      "id": "f5068245-b196-4bf3-aa4b-ec1ff834af8f",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "LFXGIOi24ARuAYI5",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        420,
+        40
+      ],
+      "id": "ca6d3852-ffc7-4dfd-bf07-a05c1de5ab03",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst data = $input.all()\n\nconst vals = Object.values(data[0].json.output)\nconsole.log(vals)\nreturn [{\n  \"data\": vals[0]\n},{\n  \"data\": vals[1]\n},{\n  \"data\": vals[2]\n},{\n  \"data\": vals[3]\n},{\n  \"data\": vals[4]\n}]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        -180
+      ],
+      "id": "35d6e0ec-7841-495e-9cc1-851cdd20d706",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6b79e67c-afb9-4051-9fff-4ed6aebdd4ba",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "fef02683-ba2f-479d-8d3e-57fd538b0461",
+              "name": "url",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        680,
+        -40
+      ],
+      "id": "e268ea6f-9adc-4745-bee6-fcb3b721f927",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "input": "5 topics on Agentic AI Systems in n8n"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "topic_generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "topic_generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic_generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "topic_generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "848931a9-8c59-4129-adf0-871eaa8e60fa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "AsrlOM6BkvXebSSV",
+  "tags": []
+}
