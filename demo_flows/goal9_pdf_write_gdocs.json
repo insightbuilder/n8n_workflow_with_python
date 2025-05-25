@@ -6,8 +6,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -340,
-        -20
+        -360,
+        -40
       ],
       "id": "bc23f8c3-3e96-47a5-a54b-7bd66ed528bc",
       "name": "When clicking ‘Test workflow’"
@@ -15,6 +15,7 @@
     {
       "parameters": {
         "operation": "update",
+        "documentURL": "={{ $json.id }}",
         "actionsUi": {
           "actionFields": [
             {
@@ -27,12 +28,12 @@
       "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 2,
       "position": [
-        0,
-        -120
+        160,
+        -40
       ],
       "id": "e3a66c29-6f28-4762-ac24-74737ba3c1ad",
       "name": "Google Docs",
-      "retryOnFail": true,
+      "retryOnFail": false,
       "credentials": {
         "googleDocsOAuth2Api": {
           "id": "X6ZeNMUPxGbji1jZ",
@@ -40,25 +41,6 @@
         }
       },
       "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "operation": "get"
-      },
-      "type": "n8n-nodes-base.googleDocs",
-      "typeVersion": 2,
-      "position": [
-        0,
-        100
-      ],
-      "id": "c9aa30e9-b956-4dbc-bac8-bca42108375f",
-      "name": "Google Docs1",
-      "credentials": {
-        "googleDocsOAuth2Api": {
-          "id": "X6ZeNMUPxGbji1jZ",
-          "name": "Google Docs account"
-        }
-      }
     },
     {
       "parameters": {
@@ -79,8 +61,8 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        240,
-        -180
+        460,
+        -60
       ],
       "id": "50af25b7-5080-46d7-992f-a27164407d29",
       "name": "Google Drive",
@@ -90,18 +72,64 @@
           "name": "Google Drive account"
         }
       }
+    },
+    {
+      "parameters": {
+        "folderId": "1HEixErtuVJtzym5h0YL2kiGJOqYfMWei",
+        "title": "={{ $json.file_name }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -100,
+        -40
+      ],
+      "id": "47e33470-ad5b-46f5-a3a3-e5983ecb44d1",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "X6ZeNMUPxGbji1jZ",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "edc3ffec-6c1a-426d-9eb2-10586e32a926",
+              "name": "documentId",
+              "value": "={{ $json.documentId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        140
+      ],
+      "id": "fd944cb4-641e-4ce9-984e-51b40cb8d78f",
+      "name": "Edit Fields"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "file_name": "First_Gdocs"
+        }
+      }
+    ]
+  },
   "connections": {
     "When clicking ‘Test workflow’": {
       "main": [
         [
-          {
-            "node": "Google Docs",
-            "type": "main",
-            "index": 0
-          },
           {
             "node": "Google Docs1",
             "type": "main",
@@ -118,6 +146,24 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     }
@@ -126,7 +172,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d273fcec-0fdd-4b79-a5fa-0a160a6a7ae1",
+  "versionId": "0dd69d96-49ee-4b2a-9b3c-fc4cbb0f80aa",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
