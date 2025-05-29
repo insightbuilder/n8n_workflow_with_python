@@ -1,0 +1,252 @@
+{
+  "name": "goal11_form_to_notion_with_ai_agent",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Work With Us",
+        "formDescription": "Share your challenges, and we will revert with a tailor made solution",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "Awesome Agency",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Service Required",
+              "placeholder": "Brief of your Challenge",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Budget",
+              "fieldType": "number",
+              "placeholder": "1000",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Timeline",
+              "placeholder": "7 Days"
+            },
+            {
+              "fieldLabel": "Description",
+              "placeholder": "Detail of the challenge and the outcome you are expecting"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -800,
+        -160
+      ],
+      "id": "6ae6328c-a253-47e2-9b3e-a69029629b2d",
+      "name": "On form submission",
+      "webhookId": "b4bb4933-8bf6-4215-b8fc-b1fbfc388248"
+    },
+    {
+      "parameters": {
+        "chunkSize": 100,
+        "chunkOverlap": 20,
+        "options": {
+          "summarizationMethodAndPrompts": {
+            "values": {
+              "summarizationMethod": "stuff",
+              "prompt": "=Write a concise summary of the following data provided by a lead:\nCustomer Name: {{ $json.Name }}\nService Required: {{ $json['Service Required'] }}\nBudget Available: {{ $json.Budget }}\nTimeline for the Solution: {{ $json.Timeline }}\nDescription of the request: {{ $json.Description }}\n\nCONCISE SUMMARY: "
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2,
+      "position": [
+        -360,
+        -160
+      ],
+      "id": "1ef94739-a456-412f-9535-3c04e3c5238a",
+      "name": "Summarization Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -272,
+        60
+      ],
+      "id": "d5972b35-39d6-44c7-b794-6ffedc66a361",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "pCgHOdrD9sJtpacb",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "1b084ade-96ac-8077-a561-f160d218b134",
+          "mode": "list",
+          "cachedResultName": "yt_scripts",
+          "cachedResultUrl": "https://www.notion.so/1b084ade96ac8077a561f160d218b134"
+        },
+        "title": "={{ $('On form submission').item.json.Name }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Budget|number",
+              "numberValue": "={{ $('On form submission').item.json.Budget }}"
+            },
+            {
+              "key": "Service Required|rich_text",
+              "textContent": "={{ $('On form submission').item.json['Service Required'] }}"
+            },
+            {
+              "key": "Time line|rich_text",
+              "textContent": "={{ $('On form submission').item.json.Timeline }}"
+            },
+            {
+              "key": "Description|rich_text",
+              "textContent": "={{ $('On form submission').item.json.Description }}"
+            },
+            {
+              "key": "Summary|rich_text",
+              "textContent": "={{ $json.response.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        -160
+      ],
+      "id": "18039588-5cb3-48be-8fdc-3dd307cab248",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "LFXGIOi24ARuAYI5",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5279b324-bc3f-4361-8d15-720d0f9f2cc9",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "8685c28d-e365-4bac-bf05-ee46f43f0ec4",
+              "name": "Service Required",
+              "value": "={{ $json['Service Required'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d493d9d0-e6ba-4084-9fbc-6b418f3b65f5",
+              "name": "Budget",
+              "value": "={{ $json.Budget }}",
+              "type": "number"
+            },
+            {
+              "id": "d61f0219-d14d-4e4f-b327-e656f0a7ba64",
+              "name": "Timeline",
+              "value": "={{ $json.Timeline }}",
+              "type": "string"
+            },
+            {
+              "id": "918000b9-1ab8-4099-bad9-519ce76301d5",
+              "name": "Description",
+              "value": "={{ $json.Description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -580,
+        -160
+      ],
+      "id": "2053fd63-3a17-4957-8fcd-cae982eb0ed1",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8dd2a45d-9e51-4b38-8be9-2c958a4964a8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "JBXs4wG6gxcTVFAY",
+  "tags": []
+}
