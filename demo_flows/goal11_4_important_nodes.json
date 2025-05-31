@@ -1,0 +1,507 @@
+{
+  "name": "goal11_4_important_nodes",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -700,
+        -40
+      ],
+      "id": "cea52f46-ea66-496d-84f8-f12aaa301aaa",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "joblink",
+        "include": "={{ $json.joblink }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        60,
+        380
+      ],
+      "id": "5942161f-6c2e-46b3-954c-d9ce59b006e1",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "name",
+              "field2": "name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        340,
+        -80
+      ],
+      "id": "d5972861-57e3-41c0-8251-d2a474f6b539",
+      "name": "Compare Datasets"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        340,
+        380
+      ],
+      "id": "b6058609-cb53-4740-b7d9-d4c9a7118079",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "joblink",
+              "cssSelector": "td .titleline > a",
+              "returnValue": "attribute",
+              "attribute": "href",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        320
+      ],
+      "id": "48d32710-7d0c-4481-aea8-f6c855690bce",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2045132d-889c-8051-917a-e956bb57ba28",
+          "mode": "list",
+          "cachedResultName": "vid_analysis",
+          "cachedResultUrl": "https://www.notion.so/2045132d889c8051917ae956bb57ba28"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -260,
+        -200
+      ],
+      "id": "c087d826-30c7-4120-a9b8-5bcb514557f1",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "9B3nhVwQhwkrn9TG",
+          "name": "yt_api_account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2045132d-889c-803e-bb71-dab8d088efa1",
+          "mode": "list",
+          "cachedResultName": "mkt_research",
+          "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
+        },
+        "limit": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -260,
+        80
+      ],
+      "id": "af3955c7-b2f7-45fe-857d-087e7d81747c",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "9B3nhVwQhwkrn9TG",
+          "name": "yt_api_account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f2eb2918-ffda-401b-aa37-306564d14cc1",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "204db71f-f80f-4580-b50e-f5dfa867cf26",
+              "name": "property_vid",
+              "value": "={{ $json.property_vid }}",
+              "type": "string"
+            },
+            {
+              "id": "0ed8ef4e-2528-46a1-89d2-4be58445dc32",
+              "name": "property_name",
+              "value": "={{ $json.property_name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        -200
+      ],
+      "id": "001dff1f-1761-42d5-8a0e-6397efb8bfca",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8a86eb6f-d2ff-4e47-a083-5a27680144f3",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "e0ee4e59-b5c3-46f0-aa8c-b31184ef52ba",
+              "name": "property_vid",
+              "value": "={{ $json.property_vid }}",
+              "type": "string"
+            },
+            {
+              "id": "ac6aecc7-be5e-4f31-9568-07353550f273",
+              "name": "property_name",
+              "value": "={{ $json.property_name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        80
+      ],
+      "id": "0a5f71c2-7309-42c6-a04b-ed7243e6586f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "url": "https://news.ycombinator.com/jobs?next=43925306&n=31",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -500,
+        220
+      ],
+      "id": "fc293e5d-070b-46f0-9034-1161f76f3e50",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -500,
+        460
+      ],
+      "id": "6c65e677-d810-49b9-91e1-2a2d9eda5121",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -300,
+        560
+      ],
+      "id": "7cfa268b-d916-4986-8402-e01e56278379",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        680
+      ],
+      "id": "4fb02cf3-2929-4161-94da-130613ac9b70"
+    },
+    {
+      "parameters": {
+        "batchSize": "=1",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        580,
+        380
+      ],
+      "id": "c0c1f2eb-80fb-46e7-986c-85467018ed75",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Split Out').item.json.joblink }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        480
+      ],
+      "id": "c0253cc2-10a1-470b-b65e-b30a4cecf0cb",
+      "name": "HTTP Request1"
+    }
+  ],
+  "pinData": {
+    "Edit Fields2": [
+      {
+        "json": 1
+      },
+      {
+        "json": 2
+      },
+      {
+        "json": 3
+      },
+      {
+        "json": 4
+      },
+      {
+        "json": 5
+      }
+    ]
+  },
+  "connections": {
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Datasets": {
+      "main": [
+        []
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "86ee58b9-3a62-4cdf-87c1-7dce3b3533ce",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "RTyKXtRIipU9YPXd",
+  "tags": []
+}
