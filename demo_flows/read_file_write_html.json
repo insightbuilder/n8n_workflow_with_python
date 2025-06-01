@@ -101,7 +101,7 @@
     },
     {
       "parameters": {
-        "command": "wkhtmltopdf /n8n/shared/output.html /n8n/shared/output.pdf"
+        "command": "=wkhtmltopdf /data/shared/output.html /data/shared/output_{{ $now.toString().split(\":\")[2] }}.pdf"
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -209,10 +209,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "f4585600-d4c6-428f-b9b9-ec8d3550e3a7",
+  "versionId": "c779b3ec-a1b3-43bc-b82a-a4924416bd4a",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+    "instanceId": "2954010731ae1c2223159c64e7411f250ca0ff14934299cd5fdbfd7bf769d6ad"
   },
   "id": "98pKed622fOF0cZY",
   "tags": []
