@@ -7,7 +7,7 @@
       "typeVersion": 1,
       "position": [
         -700,
-        -40
+        -300
       ],
       "id": "cea52f46-ea66-496d-84f8-f12aaa301aaa",
       "name": "When clicking ‘Test workflow’"
@@ -21,8 +21,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        60,
-        380
+        -40,
+        -89.5
       ],
       "id": "5942161f-6c2e-46b3-954c-d9ce59b006e1",
       "name": "Split Out"
@@ -32,18 +32,19 @@
         "mergeByFields": {
           "values": [
             {
-              "field1": "name",
-              "field2": "name"
+              "field1": "person.name",
+              "field2": "person.name"
             }
           ]
         },
+        "fuzzyCompare": true,
         "options": {}
       },
       "type": "n8n-nodes-base.compareDatasets",
       "typeVersion": 2.3,
       "position": [
-        340,
-        -80
+        1440,
+        439
       ],
       "id": "d5972861-57e3-41c0-8251-d2a474f6b539",
       "name": "Compare Datasets"
@@ -55,8 +56,8 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        340,
-        380
+        180,
+        -89.5
       ],
       "id": "b6058609-cb53-4740-b7d9-d4c9a7118079",
       "name": "Limit"
@@ -80,8 +81,8 @@
       "type": "n8n-nodes-base.html",
       "typeVersion": 1.2,
       "position": [
-        -240,
-        320
+        -260,
+        -89.5
       ],
       "id": "48d32710-7d0c-4481-aea8-f6c855690bce",
       "name": "HTML"
@@ -92,18 +93,18 @@
         "operation": "getAll",
         "databaseId": {
           "__rl": true,
-          "value": "2045132d-889c-8051-917a-e956bb57ba28",
+          "value": "2055132d-889c-8070-968f-e4fd19deca24",
           "mode": "list",
-          "cachedResultName": "vid_analysis",
-          "cachedResultUrl": "https://www.notion.so/2045132d889c8051917ae956bb57ba28"
+          "cachedResultName": "support_db",
+          "cachedResultUrl": "https://www.notion.so/2055132d889c8070968fe4fd19deca24"
         },
         "options": {}
       },
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        -260,
-        -200
+        -480,
+        -500
       ],
       "id": "c087d826-30c7-4120-a9b8-5bcb514557f1",
       "name": "Notion",
@@ -122,7 +123,7 @@
           "__rl": true,
           "value": "2045132d-889c-803e-bb71-dab8d088efa1",
           "mode": "list",
-          "cachedResultName": "mkt_research",
+          "cachedResultName": "ai_hype",
           "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
         },
         "limit": 10,
@@ -131,8 +132,8 @@
       "type": "n8n-nodes-base.notion",
       "typeVersion": 2.2,
       "position": [
-        -260,
-        80
+        -480,
+        -300
       ],
       "id": "af3955c7-b2f7-45fe-857d-087e7d81747c",
       "name": "Notion1",
@@ -145,127 +146,17 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f2eb2918-ffda-401b-aa37-306564d14cc1",
-              "name": "name",
-              "value": "={{ $json.name }}",
-              "type": "string"
-            },
-            {
-              "id": "204db71f-f80f-4580-b50e-f5dfa867cf26",
-              "name": "property_vid",
-              "value": "={{ $json.property_vid }}",
-              "type": "string"
-            },
-            {
-              "id": "0ed8ef4e-2528-46a1-89d2-4be58445dc32",
-              "name": "property_name",
-              "value": "={{ $json.property_name }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -40,
-        -200
-      ],
-      "id": "001dff1f-1761-42d5-8a0e-6397efb8bfca",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "8a86eb6f-d2ff-4e47-a083-5a27680144f3",
-              "name": "name",
-              "value": "={{ $json.name }}",
-              "type": "string"
-            },
-            {
-              "id": "e0ee4e59-b5c3-46f0-aa8c-b31184ef52ba",
-              "name": "property_vid",
-              "value": "={{ $json.property_vid }}",
-              "type": "string"
-            },
-            {
-              "id": "ac6aecc7-be5e-4f31-9568-07353550f273",
-              "name": "property_name",
-              "value": "={{ $json.property_name }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -40,
-        80
-      ],
-      "id": "0a5f71c2-7309-42c6-a04b-ed7243e6586f",
-      "name": "Edit Fields1"
-    },
-    {
-      "parameters": {
         "url": "https://news.ycombinator.com/jobs?next=43925306&n=31",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -500,
-        220
+        -480,
+        -89.5
       ],
       "id": "fc293e5d-070b-46f0-9034-1161f76f3e50",
       "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": []
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -500,
-        460
-      ],
-      "id": "6c65e677-d810-49b9-91e1-2a2d9eda5121",
-      "name": "Edit Fields2"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        -300,
-        560
-      ],
-      "id": "7cfa268b-d916-4986-8402-e01e56278379",
-      "name": "Loop Over Items"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "name": "Replace Me",
-      "typeVersion": 1,
-      "position": [
-        -80,
-        680
-      ],
-      "id": "4fb02cf3-2929-4161-94da-130613ac9b70"
     },
     {
       "parameters": {
@@ -275,8 +166,8 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        580,
-        380
+        400,
+        -89.5
       ],
       "id": "c0c1f2eb-80fb-46e7-986c-85467018ed75",
       "name": "Loop Over Items1"
@@ -289,32 +180,391 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        800,
-        480
+        620,
+        -89.5
       ],
       "id": "c0253cc2-10a1-470b-b65e-b30a4cecf0cb",
       "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": " return [\n{\n\"fruit\": \"apple\",\n\"color\": \"green\",\n},\n{\n\"fruit\": \"orange\",\n\"color\": \"orange\",\n},\n{\n\"fruit\": \"grape\",\n\"color\": \"green\",  \n},\n{\n\"fruit\": \"strawberry\",\n\"color\": \"red\",\n},\n{\n\"fruit\": \"banana\",\n\"color\": \"yellow\",\n}\n];\n"
+      },
+      "id": "25bdb49e-c066-44cf-8657-430836770425",
+      "name": "Dataset 1",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1220,
+        -100
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "jsCode": " return [\n{\n\"fruit\": \"apple\",\n\"color\": \"green\",\n},\n{\n\"fruit\": \"grape\",\n\"color\": \"purple\",\n},\n{\n\"fruit\": \"orange\",\n\"color\": \"orange\",\n},\n{\n \"fruit\": \"kiwi\",\n \"color\": \"mostly green\"\n},\n{\n\"fruit\": \"banana\",\n\"color\": \"yellow\",\n}\n];\n"
+      },
+      "id": "a01ce12c-d230-412a-9ac5-fd2a9bc34196",
+      "name": "Dataset 2",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1220,
+        100
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## Explore outputs \n\nIn the OUTPUT panel of this node, click on the different tabs to see which data goes to which output stream.",
+        "height": 905,
+        "width": 542
+      },
+      "id": "93ceb8a2-f8f2-4d81-aabe-e1b56d3f5a3e",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1140,
+        -220
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "fruit",
+              "field2": "fruit"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "219a5957-38a1-4a9a-b5d7-ee051e9f5658",
+      "name": "Compare Datasets1",
+      "type": "n8n-nodes-base.compareDatasets",
+      "position": [
+        1440,
+        -21
+      ],
+      "typeVersion": 2.3
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"person\": {\n      \"name\": \"Sara\",\n      \"language\": \"fr\"\n    }\n  },\n  {\n    \"person\": {\n      \"name\": \"Jane\",\n      \"language\": \"en\"\n    }\n  },\n  {\n    \"person\": {\n      \"name\": \"Harriet\",\n      \"language\": \"de\"\n    }\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        360
+      ],
+      "id": "45af6ef0-3253-46f5-ac49-7ca5f8a246da",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"person\": {\n      \"name\": \"Shifu\",\n      \"language\": \"cn\"\n    }\n  },\n  {\n    \"person\": {\n      \"name\": \"Jane\",\n      \"language\": \"en\"\n    }\n  },\n  {\n    \"person\": {\n      \"name\": \"Sara\",\n      \"language\": \"de\"\n    }\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        560
+      ],
+      "id": "bfa812aa-f5bb-457b-a28b-5e531cfdd6e3",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "property_vid",
+              "field2": "property_vid"
+            }
+          ]
+        },
+        "resolve": "preferInput2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
+      "position": [
+        -40,
+        -421
+      ],
+      "id": "bc0bad16-0074-4b18-ae71-53ff0679f846",
+      "name": "Compare Datasets2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e82f3899-804c-4a3d-b586-324839dc4801",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "3e7d2c02-c803-40eb-8ad7-07d0234411d4",
+              "name": "property_vid",
+              "value": "={{ $json.property_vid }}",
+              "type": "string"
+            },
+            {
+              "id": "493f5e20-7f20-43db-b32d-f5e03239a282",
+              "name": "property_downloaded",
+              "value": "={{ $json.property_downloaded }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -260,
+        -500
+      ],
+      "id": "5cfdacfd-1cd8-4216-874e-c7fad86db945",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec6d85b7-d846-4ee0-a128-af5cfdad3cd2",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "e9ac1bad-2a48-43c9-a857-b8ef6c87e619",
+              "name": "property_vid",
+              "value": "={{ $json.property_vid }}",
+              "type": "string"
+            },
+            {
+              "id": "f2a4a9b4-cad5-4882-ba12-6551f84e62e4",
+              "name": "property_downloaded",
+              "value": "={{ $json.property_downloaded }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -260,
+        -300
+      ],
+      "id": "c665275c-a8e9-4bbe-8605-1f733cbe43d1",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2045132d-889c-803e-bb71-dab8d088efa1",
+          "mode": "list",
+          "cachedResultName": "ai_hype",
+          "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
+        },
+        "limit": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        600,
+        -360
+      ],
+      "id": "97448b18-254f-4893-b58c-e18d8aef94ec",
+      "name": "Notion2",
+      "credentials": {
+        "notionApi": {
+          "id": "9B3nhVwQhwkrn9TG",
+          "name": "yt_api_account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2045132d-889c-803e-bb71-dab8d088efa1",
+          "mode": "list",
+          "cachedResultName": "ai_hype",
+          "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
+        },
+        "limit": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -480,
+        120
+      ],
+      "id": "a1c82cba-5674-444b-90f5-13c4b0d9e2e5",
+      "name": "Notion3",
+      "credentials": {
+        "notionApi": {
+          "id": "9B3nhVwQhwkrn9TG",
+          "name": "yt_api_account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n\n<html>\n<head>\n  <meta charset=\"UTF-8\" />\n  <style>\n.container {\n  background-color: #ffffff;\n  text-align: left;\n  padding: 16px;\n  border-radius: 8px;\n}\n\nh1 {\n  color: #ff6d5a;\n  font-size: 24px;\n  font-weight: bold;\n  padding: 8px;\n}\n\nh2 {\n  color: #909399;\n  font-size: 18px;\n  font-weight: bold;\n  padding: 8px;\n}\n</style>\n  <title>My HTML document</title>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>{{ $json.property_name }}</h1>\n    <h2>{{ $json.url }}</h2>\n    <h3>Description:</h3>\n    <p>{{ $json.property_description }}</p>\n  </div>\n</body>\n</html>\n\n\n"
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -280,
+        260
+      ],
+      "id": "40d2efbe-77ca-4307-acc0-8e86896af4b3",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "html",
+        "binaryPropertyName": "=data",
+        "options": {
+          "fileName": "={{ $('Notion3').item.json.property_vid }}.html"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        260
+      ],
+      "id": "c9397b1d-a5df-4ea8-9785-69567f00b165",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "docsToFormat": "application/pdf"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        640,
+        260
+      ],
+      "id": "20c3c78b-06d1-4522-89e4-4b7593dcac37",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oXI4Nor8OLLuH5qd",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -60,
+        260
+      ],
+      "id": "e839059d-e89f-4bef-841a-f69e2abd0b39",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "556a97ec-ec63-4618-b788-7312e4ec1174",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e4d2aa2b-09ed-43d4-be05-07cc1e7c3e4f",
+              "name": "webContentLink",
+              "value": "={{ $json.webContentLink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        840,
+        260
+      ],
+      "id": "c04be97f-a8bd-4462-8d26-1e90c4a19e14",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "=data",
+        "name": "=",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1HEixErtuVJtzym5h0YL2kiGJOqYfMWei",
+          "mode": "list",
+          "cachedResultName": "n8n_folder",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1HEixErtuVJtzym5h0YL2kiGJOqYfMWei"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        420,
+        260
+      ],
+      "id": "cfed0a8b-879b-427f-b7c6-4ffc81fc46e5",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oXI4Nor8OLLuH5qd",
+          "name": "Google Drive account"
+        }
+      }
     }
   ],
-  "pinData": {
-    "Edit Fields2": [
-      {
-        "json": 1
-      },
-      {
-        "json": 2
-      },
-      {
-        "json": 3
-      },
-      {
-        "json": 4
-      },
-      {
-        "json": 5
-      }
-    ]
-  },
+  "pinData": {},
   "connections": {
     "Split Out": {
       "main": [
@@ -347,22 +597,22 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Edit Fields2",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Notion",
             "type": "main",
             "index": 0
           },
           {
             "node": "Notion1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion3",
             "type": "main",
             "index": 0
           }
@@ -391,28 +641,6 @@
         ]
       ]
     },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Compare Datasets",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "Compare Datasets",
-            "type": "main",
-            "index": 1
-          }
-        ]
-      ]
-    },
     "HTTP Request": {
       "main": [
         [
@@ -429,40 +657,6 @@
         [
           {
             "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields2": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Replace Me",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Replace Me": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -491,13 +685,151 @@
           }
         ]
       ]
+    },
+    "Dataset 1": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dataset 2": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Notion3": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        []
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "86ee58b9-3a62-4cdf-87c1-7dce3b3533ce",
+  "versionId": "80b359a6-6eec-4714-9bf1-41126c102ca6",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"

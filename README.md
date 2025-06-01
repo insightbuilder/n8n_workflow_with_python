@@ -29,3 +29,22 @@ docker-compose
 The docker-compose file, along with the Dockerfile
 are self-sufficient to get the n8n interface to be
 hosted locally.
+
+## n8n with pdf and python:
+
+Updated the Dockerfile with both binaries required
+for creating the pdf and python. The earlier
+dockerfile is renamed as Dockerfil0
+
+docker run -it -v $(pwd)/shared:/data/shared -p
+5678:5678 n8n-pdf-python /bin/sh
+
+In the shell spawned from the docker image run
+the  
+wkhtmltopdf /data/shared/test.html
+/data/shared/test.pdf
+
+After that updated the docker-compose file with
+the n8n-pdf-python image, and the older
+docker-compose file is renamed to
+docker-compose0.yaml

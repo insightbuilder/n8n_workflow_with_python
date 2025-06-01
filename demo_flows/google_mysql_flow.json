@@ -1,0 +1,606 @@
+{
+  "name": "google-mysql-flow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ee55d46d-63af-4838-87dc-01fe2781d34b",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -5500,
+        420
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "timestamp",
+              "field2": "timestamp"
+            },
+            {
+              "field1": "source_name",
+              "field2": "source_name"
+            }
+          ]
+        },
+        "options": {
+          "skipFields": "record_created,record_updated,id"
+        }
+      },
+      "id": "f5df657b-d4d8-4e89-89fe-cdc9540e5011",
+      "name": "Compare Datasets",
+      "type": "n8n-nodes-base.compareDatasets",
+      "position": [
+        -4840,
+        300
+      ],
+      "typeVersion": 2.3
+    },
+    {
+      "parameters": {},
+      "id": "89dc8a5d-30b9-439b-a19f-56cc0f5bfd64",
+      "name": "Send Notifications",
+      "type": "n8n-nodes-base.noOp",
+      "position": [
+        -4380,
+        180
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/30 6-22 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "5563021b-db38-4996-a5c9-5d743eb3eefa",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        -5500,
+        120
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/1KCSKt9bKrFSWGRTTfj-JIVl-u7gcLMbFTCSvZbUMiuo"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": 263642066,
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KCSKt9bKrFSWGRTTfj-JIVl-u7gcLMbFTCSvZbUMiuo/edit#gid=263642066",
+          "cachedResultName": "Form Responses 1"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "DB Status"
+            }
+          ]
+        },
+        "options": {
+          "returnAllMatches": "returnAllMatches"
+        }
+      },
+      "id": "aa616370-738a-4d12-b48d-7f1c886a0750",
+      "name": "Google Sheet Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -5280,
+        120
+      ],
+      "typeVersion": 4,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yy5eXqgPFwiG64O5",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": "ConcertInquiries",
+          "cachedResultName": "ConcertInquiries"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "source_name",
+              "value": "GoogleForm"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8b1f453e-461b-48a9-afd5-91cf85828434",
+      "name": "SQL Get inquiries from Google",
+      "type": "n8n-nodes-base.mySql",
+      "position": [
+        -5280,
+        420
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": "ConcertInquiries",
+          "cachedResultName": "ConcertInquiries"
+        },
+        "columnToMatchOn": "timestamp",
+        "options": {}
+      },
+      "id": "983a70d0-0cbe-441d-89d4-08e06aaf29c8",
+      "name": "Add MySQL records",
+      "type": "n8n-nodes-base.mySql",
+      "position": [
+        -4600,
+        0
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "timestamp",
+              "value": "={{ $json.Timestamp }}"
+            },
+            {
+              "name": "occasion",
+              "value": "={{ $json[\"What event are you organizing? \"] }}"
+            },
+            {
+              "name": "email_address",
+              "value": "={{ $json[\"Email Address\"] }}"
+            },
+            {
+              "name": "event_date",
+              "value": "={{ DateTime.fromFormat($json[\"When does the event take place? \"], 'M/d/yyyy').toFormat('yyyy-MM-dd') }}"
+            },
+            {
+              "name": "location",
+              "value": "={{ $json[\"Where does the event take place? \"] }}"
+            },
+            {
+              "name": "event_description",
+              "value": "={{ $json[\"Please tell us more about the event. \"] }}"
+            },
+            {
+              "name": "source_name",
+              "value": "GoogleForm"
+            },
+            {
+              "name": "db_status",
+              "value": "={{ $json[\"DB Status\"] }}"
+            },
+            {
+              "name": "name",
+              "value": "={{ $json[\"Your name \"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c24762c8-0066-4af6-b6f5-e97ded744275",
+      "name": "Rename GSheet variables",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -5060,
+        120
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "dateTime": [
+            {
+              "value1": "={{ DateTime.fromFormat($json.timestamp, 'MM/d/yyyy HH:mm:ss'); }}",
+              "operation": "before",
+              "value2": "={{ DateTime.now().minus({ hours: 4 }) }}"
+            }
+          ]
+        }
+      },
+      "id": "001f48fa-f22b-4622-90eb-832a713315ef",
+      "name": "No reply too long?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -4600,
+        200
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.different.db_status.inputB }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "bb30551d-7ed5-4d77-9835-636e71a2ee2a",
+      "name": "DB Status assigned?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -4600,
+        400
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "https://docs.google.com/spreadsheets/d/1KCSKt9bKrFSWGRTTfj-JIVl-u7gcLMbFTCSvZbUMiuo"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": 263642066,
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KCSKt9bKrFSWGRTTfj-JIVl-u7gcLMbFTCSvZbUMiuo/edit#gid=263642066",
+          "cachedResultName": "Form Responses 1"
+        },
+        "columns": {
+          "value": {
+            "DB Status": "={{ $json.different.db_status.inputB }}",
+            "Timestamp": "={{ $json.keys.timestamp }}"
+          },
+          "schema": [
+            {
+              "id": "Timestamp",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Timestamp",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email Address",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "required": false,
+              "displayName": "Email Address",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Your name ",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "required": false,
+              "displayName": "Your name ",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "What event are you organizing? ",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "required": false,
+              "displayName": "What event are you organizing? ",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "When does the event take place? ",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "required": false,
+              "displayName": "When does the event take place? ",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Where does the event take place? ",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "required": false,
+              "displayName": "Where does the event take place? ",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Please tell us more about the event. ",
+              "type": "string",
+              "display": true,
+              "removed": true,
+              "required": false,
+              "displayName": "Please tell us more about the event. ",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "DB Status",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "DB Status",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "Timestamp"
+          ]
+        },
+        "options": {}
+      },
+      "id": "89bfb123-b324-4c49-90ce-84ae0274fb38",
+      "name": "Update GSheet status",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        -4380,
+        380
+      ],
+      "typeVersion": 4,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Yy5eXqgPFwiG64O5",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.source_name }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "b6053a1f-3233-4d1a-b3c9-5290649d3432",
+      "name": "DB Status in sync?",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -4600,
+        600
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "mode": "list",
+          "value": "ConcertInquiries",
+          "cachedResultName": "ConcertInquiries"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "id",
+        "valueToMatchOn": "={{ $json.id }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "source_name",
+              "value": "={{ $json.source_name }}Sync"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a775f22f-c0eb-451a-a412-fd601aaa424b",
+      "name": "Sync MySQL data",
+      "type": "n8n-nodes-base.mySql",
+      "position": [
+        -4380,
+        580
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "content": "## Create a new Google Form with several variables:\n\n-Email Address\n-Your name \n-What event are you organizing? \n-When does the event take place? \n-Where does the event take place? \n-Please tell us more about the event. \n\n- Timestamp variable is added automatically\n- Add \"DB Status\" manually in the Google Sheet\n",
+        "height": 474.81900452488685,
+        "width": 376.8778280542988
+      },
+      "id": "be236817-414b-45d4-afae-6e80da6c09d2",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -5320,
+        -200
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Import this SQL file to create a new table\nhttps://gist.github.com/teds-tech-talks/cf25c60363cba082b9c5a1feca10180f",
+        "height": 273.23529411764684,
+        "width": 375.6334841628956
+      },
+      "id": "77351882-f317-41d9-b436-3d853e137b66",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -5320,
+        320
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Compare Datasets": {
+      "main": [
+        [
+          {
+            "node": "Add MySQL records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No reply too long?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "DB Status assigned?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "DB Status in sync?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheet Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "SQL Get inquiries from Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheet Data": {
+      "main": [
+        [
+          {
+            "node": "Rename GSheet variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DB Status in sync?": {
+      "main": [
+        [
+          {
+            "node": "Sync MySQL data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No reply too long?": {
+      "main": [
+        [
+          {
+            "node": "Send Notifications",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DB Status assigned?": {
+      "main": [
+        [
+          {
+            "node": "Update GSheet status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename GSheet variables": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SQL Get inquiries from Google": {
+      "main": [
+        [
+          {
+            "node": "Compare Datasets",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Google Sheet Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "SQL Get inquiries from Google",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1dcf8b41-a156-4b68-93e6-20a97f9f2657",
+  "meta": {
+    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+  },
+  "id": "OfFwxePBK7MBtP2j",
+  "tags": []
+}

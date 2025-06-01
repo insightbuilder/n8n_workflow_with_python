@@ -24,7 +24,7 @@ services:
       retries: 10
 
   n8n:
-    image: n8n-pdf-python
+    image: n8n-python
     restart: always
     environment:
       - DB_TYPE=postgresdb
