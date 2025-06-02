@@ -1,0 +1,8 @@
+invoice_number,invoice_date,customer_name,customer_email,customer_address,item_description,item_quantity,item_rate,item_amount,tax_rate,tax_amount,total_amount
+INV001,2025-05-20,Alice Smith,alice@example.com,101 Maple St,Widget A,2,50,100,10,10,110
+INV002,2025-05-20,Bob Johnson,bob@example.com,202 Oak Rd,Gadget B,1,75,75,10,7.5,82.5
+INV003,2025-05-20,Carol Davis,carol@example.com,303 Pine Ave,Tool C,5,20,100,5,5,105
+INV004,2025-05-20,David Wilson,david@example.com,404 Elm Blvd,Device D,3,40,120,8,9.6,129.6
+INV005,2025-05-20,Eve Brown,eve@example.com,505 Birch Ln,Accessory E,4,30,120,12,14.4,134.4
+INV006,2025-05-20,Frank Green,frank@example.com,606 Cedar Ct,Module F,1,150,150,15,22.5,172.5
+

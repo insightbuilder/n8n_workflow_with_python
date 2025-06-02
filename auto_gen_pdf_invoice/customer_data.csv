@@ -1,0 +1,8 @@
+customer_name,customer_address,customer_email,customer_gstin,invoice_number,invoice_date,items,subtotal,tax_rate,tax_amount,total
+Alice Tech,A-102 Silicon Valley,alice@example.com,29ABCDE1234FZ1,INV001,2024-05-01,"[{""description"":""SaaS Subscription"",""quantity"":1,""rate"":500,""amount"":500}]",500,18,90,590
+Bob Ventures,45 Elm St,NY,bob@ventures.com,22XYZDC2345LZ3,INV002,2024-05-02,"[{""description"":""Consulting"",""quantity"":5,""rate"":200,""amount"":1000}]",1000,18,180,1180
+Clara Fintech,78 Block D,Delhi,clara@fintech.com,07WERTY2345ZQ7,INV003,2024-05-03,"[{""description"":""API Usage"",""quantity"":1000,""rate"":0.05,""amount"":50}]",50,18,9,59
+Delta Health,33 Garden Ave,LA,delta@health.io,09PLMNB1234VZ4,INV004,2024-05-04,"[{""description"":""Medical Software License"",""quantity"":2,""rate"":1500,""amount"":3000}]",3000,18,540,3540
+Echo Retail,Block C Sector 8,echo@retail.com,27GHJKL1234VZ6,INV005,2024-05-05,"[{""description"":""POS Software"",""quantity"":3,""rate"":1000,""amount"":3000}]",3000,18,540,3540
+Future Designs,12 Tech Blvd,future@designs.com,19MNOPQ2345YZ8,INV006,2024-05-06,"[{""description"":""UI/UX Design"",""quantity"":10,""rate"":150,""amount"":1500}]",1500,18,270,1770
+
