@@ -19,6 +19,11 @@ duplicate file env.txt will get pushed
 
 https://github.com/n8n-io/n8n-hosting/tree/main/docker-compose/withPostgres
 
+# Installation Instructions:
+
+Ensure you have docker and docker-compose
+application is installed in our OS.
+
 ## n8n with python:
 
 The docker file used to build the image is
@@ -36,15 +41,30 @@ Updated the Dockerfile with both binaries required
 for creating the pdf and python. The earlier
 dockerfile is renamed as Dockerfil0
 
+To create the docker image execute the below
+command
+
+docker built -t n8n-pdf-python .
+
+**Testing html to pdf conversion on cli:**
+
+After docker image is created, execute the below
+
 docker run -it -v $(pwd)/shared:/data/shared -p
 5678:5678 n8n-pdf-python /bin/sh
 
-In the shell spawned from the docker image run
-the  
+Get or create a simple html file and name it test.html.
+In the shell spawned from the docker image run the
+command
+
 wkhtmltopdf /data/shared/test.html
 /data/shared/test.pdf
 
-After that updated the docker-compose file with
-the n8n-pdf-python image, and the older
+You must see a test.pdf file.
+
+**Adding the Docker Image to docker-compose file:**
+
+After that update the docker-compose.yml file in the current folder with
+the n8n-pdf-python image. The earlier version
 docker-compose file is renamed to
-docker-compose0.yaml
+docker-compose0.yml
