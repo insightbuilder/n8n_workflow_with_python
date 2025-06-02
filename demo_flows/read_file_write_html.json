@@ -94,8 +94,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -660,
-        -460
+        -640,
+        -620
       ],
       "typeVersion": 1,
       "id": "fa5d9f08-5291-4fb1-acf8-2334cab1fec2",
@@ -158,6 +158,36 @@
       ],
       "id": "7b5cae6f-3cc5-47fb-9e57-59ecbd905e6d",
       "name": "HTML TO PDF Command"
+    },
+    {
+      "parameters": {
+        "content": "## Sections of the Video\n\n#### - Demo of the flow in working \n\n#### - Explaining the Concept of HTML to PDF\n\n#### - How to Create the Docker Image with HTML to PDF convertor \n\n#### - How to Set up Docker Compose for uploading & Downloading processed files\n\n#### - Explaining the n8n Nodes in Flow",
+        "height": 360,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -120,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "a4d4c5b4-9420-4b79-82f2-105762d54628",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Supporting Links\n\n1 - https://wkhtmltopdf.org/\n\n2 - https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.html/\n\n3 - https://github.com/insightbuilder/n8n_workflow_with_python/tree/main/demo_flows\n\n#### Video found in playlist: \nhttps://www.youtube.com/playlist?list=PLbzjzOKeYPCr98J6k-G6WzRkYmGmlIVZC ",
+        "height": 360,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        540,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "ff2dd0de-91c3-4440-9d05-eb2549dee84a",
+      "name": "Sticky Note4"
     }
   ],
   "pinData": {},
@@ -256,7 +286,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "c499f9c9-0d93-4399-a658-a35dcb72c43f",
+  "versionId": "309da37f-bd62-42bf-a9e2-247ee6f25790",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "2954010731ae1c2223159c64e7411f250ca0ff14934299cd5fdbfd7bf769d6ad"
