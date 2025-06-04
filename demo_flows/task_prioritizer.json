@@ -1,0 +1,296 @@
+{
+  "name": "task_prioritizer",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        -120
+      ],
+      "id": "5778120d-be64-486c-8afa-33a2da345cbe",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1b084ade-96ac-8077-a561-f160d218b134",
+          "mode": "list",
+          "cachedResultName": "TasksDB",
+          "cachedResultUrl": "https://www.notion.so/1b084ade96ac8077a561f160d218b134"
+        },
+        "limit": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -460,
+        -120
+      ],
+      "id": "e7eeee66-2e87-45d7-8686-e3cd661ab050",
+      "name": "Notion",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "notionApi": {
+          "id": "oZ3GR5ZlOcKSZTbA",
+          "name": "wyt"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a startup strategist. Evaluate if the following task is worth doing and if it will likely generate revenue.\n\nTask: {{ $json.property_task }}\nDescription: {{ $json.property_category }}\nCategory: {{ $json.property_category }}\nTime Estimate: {{ $json.property_time }}\nRevenue Potential: {{ $json.property_revenue }}\n\nRespond with:\n- Worth Doing: Yes/No\n- Reason:",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        -140
+      ],
+      "id": "1959b248-58f4-4b4a-ad8c-3c28f2b68c94",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        80
+      ],
+      "id": "9b7597f8-7646-4e69-acd5-fb8ec09e7d1f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "RQpSyQmXp2CHWIko",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"worth doing\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"reason\": {\n\t\t\t\"type\": \"string\"\n\t\t}\n\t}\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        80
+      ],
+      "id": "73b56487-f618-4a23-a908-ea991744380a",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        340,
+        -140
+      ],
+      "id": "8cbb5f56-697f-4ed5-958c-3952177d77b9",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Edit Fields').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Worth Doing|rich_text",
+              "textContent": "={{ $('Edit Fields').item.json.output['worth doing'] }}"
+            },
+            {
+              "key": "Reason|rich_text",
+              "textContent": "={{ $('Edit Fields').item.json.output.reason }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        -40
+      ],
+      "id": "266dc08a-d72d-416c-b491-60a4d006a3c8",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "oZ3GR5ZlOcKSZTbA",
+          "name": "wyt"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4a6efebe-587f-4cff-9327-0ae0dc582d52",
+              "name": "output.reason",
+              "value": "={{ $json.output.reason }}",
+              "type": "string"
+            },
+            {
+              "id": "a2cf5ef4-e78f-4acc-9012-5dbf755595c5",
+              "name": "output['worth doing']",
+              "value": "={{ $json.output['worth doing'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c82c7d6b-b620-4b18-a870-204fadf767a0",
+              "name": "id",
+              "value": "={{ $('Notion').item.json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        -140
+      ],
+      "id": "6b5ffd5f-c3cf-4116-b25a-d1369a05b832",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {}
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cb314a18-9729-4df4-af21-7f1ded7e5082",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "499352852cc9031b17b483ee614e41c0eb8111c0ebe0d38042c1f4730174b8c7"
+  },
+  "id": "FMjzK729iTejumaT",
+  "tags": []
+}
