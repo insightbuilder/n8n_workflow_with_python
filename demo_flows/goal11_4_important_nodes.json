@@ -2,17 +2,6 @@
   "name": "goal11_4_important_nodes",
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -700,
-        -300
-      ],
-      "id": "cea52f46-ea66-496d-84f8-f12aaa301aaa",
-      "name": "When clicking ‘Test workflow’"
-    },
-    {
       "parameters": {
         "fieldToSplitOut": "joblink",
         "include": "={{ $json.joblink }}",
@@ -43,8 +32,8 @@
       "type": "n8n-nodes-base.compareDatasets",
       "typeVersion": 2.3,
       "position": [
-        1440,
-        439
+        3040,
+        40
       ],
       "id": "d5972861-57e3-41c0-8251-d2a474f6b539",
       "name": "Compare Datasets"
@@ -110,8 +99,8 @@
       "name": "Notion",
       "credentials": {
         "notionApi": {
-          "id": "9B3nhVwQhwkrn9TG",
-          "name": "yt_api_account"
+          "id": "LFXGIOi24ARuAYI5",
+          "name": "yt_api"
         }
       }
     },
@@ -126,7 +115,6 @@
           "cachedResultName": "ai_hype",
           "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
         },
-        "limit": 10,
         "options": {}
       },
       "type": "n8n-nodes-base.notion",
@@ -139,8 +127,8 @@
       "name": "Notion1",
       "credentials": {
         "notionApi": {
-          "id": "9B3nhVwQhwkrn9TG",
-          "name": "yt_api_account"
+          "id": "LFXGIOi24ARuAYI5",
+          "name": "yt_api"
         }
       }
     },
@@ -175,7 +163,13 @@
     {
       "parameters": {
         "url": "={{ $('Split Out').item.json.joblink }}",
-        "options": {}
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -184,7 +178,8 @@
         -89.5
       ],
       "id": "c0253cc2-10a1-470b-b65e-b30a4cecf0cb",
-      "name": "HTTP Request1"
+      "name": "HTTP Request1",
+      "retryOnFail": true
     },
     {
       "parameters": {
@@ -194,8 +189,8 @@
       "name": "Dataset 1",
       "type": "n8n-nodes-base.code",
       "position": [
-        1220,
-        -100
+        2820,
+        -500
       ],
       "typeVersion": 2
     },
@@ -207,8 +202,8 @@
       "name": "Dataset 2",
       "type": "n8n-nodes-base.code",
       "position": [
-        1220,
-        100
+        2820,
+        -300
       ],
       "typeVersion": 2
     },
@@ -222,8 +217,8 @@
       "name": "Sticky Note1",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1140,
-        -220
+        2740,
+        -620
       ],
       "typeVersion": 1
     },
@@ -243,8 +238,8 @@
       "name": "Compare Datasets1",
       "type": "n8n-nodes-base.compareDatasets",
       "position": [
-        1440,
-        -21
+        3040,
+        -420
       ],
       "typeVersion": 2.3
     },
@@ -255,8 +250,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1220,
-        360
+        2820,
+        -40
       ],
       "id": "45af6ef0-3253-46f5-ac49-7ca5f8a246da",
       "name": "Code"
@@ -268,8 +263,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1220,
-        560
+        2820,
+        160
       ],
       "id": "bfa812aa-f5bb-457b-a28b-5e531cfdd6e3",
       "name": "Code1"
@@ -284,7 +279,7 @@
             }
           ]
         },
-        "resolve": "preferInput2",
+        "resolve": "preferInput1",
         "options": {}
       },
       "type": "n8n-nodes-base.compareDatasets",
@@ -367,201 +362,120 @@
       "name": "Edit Fields1"
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -920,
+        -240
+      ],
+      "id": "e9d4f912-e3c8-4b09-8114-35d9c342169a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
       "parameters": {
-        "resource": "databasePage",
-        "operation": "getAll",
-        "databaseId": {
-          "__rl": true,
-          "value": "2045132d-889c-803e-bb71-dab8d088efa1",
-          "mode": "list",
-          "cachedResultName": "ai_hype",
-          "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "property_vid",
+              "field2": "property_vid"
+            }
+          ]
         },
-        "limit": 10,
+        "resolve": "preferInput2",
         "options": {}
       },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.compareDatasets",
+      "typeVersion": 2.3,
       "position": [
-        600,
+        1280,
+        -620
+      ],
+      "id": "fe1ed35f-48e2-42b8-8281-50e00cf71bbc",
+      "name": "Compare Datasets3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "joblink",
+        "include": "={{ $json.joblink }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1280,
         -360
       ],
-      "id": "97448b18-254f-4893-b58c-e18d8aef94ec",
-      "name": "Notion2",
-      "credentials": {
-        "notionApi": {
-          "id": "9B3nhVwQhwkrn9TG",
-          "name": "yt_api_account"
-        }
-      }
+      "id": "6000f5f5-0d99-40f0-bb3b-a6d2d1c42bd9",
+      "name": "Split Out1"
     },
     {
       "parameters": {
-        "resource": "databasePage",
-        "operation": "getAll",
-        "databaseId": {
-          "__rl": true,
-          "value": "2045132d-889c-803e-bb71-dab8d088efa1",
-          "mode": "list",
-          "cachedResultName": "ai_hype",
-          "cachedResultUrl": "https://www.notion.so/2045132d889c803ebb71dab8d088efa1"
-        },
-        "limit": 10,
-        "options": {}
+        "maxItems": 3
       },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
       "position": [
-        -480,
-        120
+        1280,
+        -120
       ],
-      "id": "a1c82cba-5674-444b-90f5-13c4b0d9e2e5",
-      "name": "Notion3",
-      "credentials": {
-        "notionApi": {
-          "id": "9B3nhVwQhwkrn9TG",
-          "name": "yt_api_account"
-        }
-      }
+      "id": "5ec77a01-693b-4f28-a35e-859db630b3e6",
+      "name": "Limit1"
     },
     {
       "parameters": {
-        "html": "<!DOCTYPE html>\n\n<html>\n<head>\n  <meta charset=\"UTF-8\" />\n  <style>\n.container {\n  background-color: #ffffff;\n  text-align: left;\n  padding: 16px;\n  border-radius: 8px;\n}\n\nh1 {\n  color: #ff6d5a;\n  font-size: 24px;\n  font-weight: bold;\n  padding: 8px;\n}\n\nh2 {\n  color: #909399;\n  font-size: 18px;\n  font-weight: bold;\n  padding: 8px;\n}\n</style>\n  <title>My HTML document</title>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>{{ $json.property_name }}</h1>\n    <h2>{{ $json.url }}</h2>\n    <h3>Description:</h3>\n    <p>{{ $json.property_description }}</p>\n  </div>\n</body>\n</html>\n\n\n"
-      },
-      "type": "n8n-nodes-base.html",
-      "typeVersion": 1.2,
-      "position": [
-        -280,
-        260
-      ],
-      "id": "40d2efbe-77ca-4307-acc0-8e86896af4b3",
-      "name": "HTML1"
-    },
-    {
-      "parameters": {
-        "operation": "toText",
-        "sourceProperty": "html",
-        "binaryPropertyName": "=data",
-        "options": {
-          "fileName": "={{ $('Notion3').item.json.property_vid }}.html"
-        }
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        200,
-        260
-      ],
-      "id": "c9397b1d-a5df-4ea8-9785-69567f00b165",
-      "name": "Convert to File"
-    },
-    {
-      "parameters": {
-        "operation": "download",
-        "fileId": {
-          "__rl": true,
-          "value": "={{ $json.id }}",
-          "mode": "id"
-        },
-        "options": {
-          "googleFileConversion": {
-            "conversion": {
-              "docsToFormat": "application/pdf"
-            }
-          }
-        }
-      },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [
-        640,
-        260
-      ],
-      "id": "20c3c78b-06d1-4522-89e4-4b7593dcac37",
-      "name": "Google Drive1",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "oXI4Nor8OLLuH5qd",
-          "name": "Google Drive account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        -60,
-        260
-      ],
-      "id": "e839059d-e89f-4bef-841a-f69e2abd0b39",
-      "name": "Loop Over Items"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
             {
-              "id": "556a97ec-ec63-4618-b788-7312e4ec1174",
-              "name": "id",
-              "value": "={{ $json.id }}",
-              "type": "string"
-            },
-            {
-              "id": "e4d2aa2b-09ed-43d4-be05-07cc1e7c3e4f",
-              "name": "webContentLink",
-              "value": "={{ $json.webContentLink }}",
-              "type": "string"
+              "key": "joblink",
+              "cssSelector": "td .titleline > a",
+              "returnValue": "attribute",
+              "attribute": "href",
+              "returnArray": true
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
       "position": [
-        840,
-        260
+        1280,
+        120
       ],
-      "id": "c04be97f-a8bd-4462-8d26-1e90c4a19e14",
-      "name": "Edit Fields2"
+      "id": "14df5896-e8dc-47d3-aeac-891ae12a8b12",
+      "name": "HTML1"
     },
     {
       "parameters": {
-        "inputDataFieldName": "=data",
-        "name": "=",
-        "driveId": {
-          "__rl": true,
-          "value": "My Drive",
-          "mode": "list",
-          "cachedResultName": "My Drive",
-          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
-        },
-        "folderId": {
-          "__rl": true,
-          "value": "1HEixErtuVJtzym5h0YL2kiGJOqYfMWei",
-          "mode": "list",
-          "cachedResultName": "n8n_folder",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1HEixErtuVJtzym5h0YL2kiGJOqYfMWei"
-        },
-        "options": {}
+        "content": "",
+        "height": 980,
+        "width": 320
       },
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
+      "type": "n8n-nodes-base.stickyNote",
       "position": [
-        420,
-        260
+        1220,
+        -660
       ],
-      "id": "cfed0a8b-879b-427f-b7c6-4ffc81fc46e5",
-      "name": "Google Drive",
-      "credentials": {
-        "googleDriveOAuth2Api": {
-          "id": "oXI4Nor8OLLuH5qd",
-          "name": "Google Drive account"
-        }
-      }
+      "typeVersion": 1,
+      "id": "5a1620ad-f699-4627-a49f-13bab782b2ac",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# 4 Important n8n Nodes",
+        "height": 80,
+        "width": 1020
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        -920
+      ],
+      "typeVersion": 1,
+      "id": "16437ead-7398-411b-be6a-32f769e2ce92",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -587,32 +501,6 @@
         [
           {
             "node": "Loop Over Items1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking ‘Test workflow’": {
-      "main": [
-        [
-          {
-            "node": "Notion",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Notion1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Notion3",
             "type": "main",
             "index": 0
           }
@@ -752,72 +640,21 @@
         ]
       ]
     },
-    "Notion3": {
+    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "HTML1",
+            "node": "Notion",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "HTML1": {
-      "main": [
-        [
+          },
           {
-            "node": "Loop Over Items",
+            "node": "Notion1",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert to File": {
-      "main": [
-        [
+          },
           {
-            "node": "Google Drive",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Drive1": {
-      "main": [
-        []
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Convert to File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields2": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Drive": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields2",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -827,12 +664,15 @@
   },
   "active": false,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "80b359a6-6eec-4714-9bf1-41126c102ca6",
+  "versionId": "5ade9818-05a5-4e85-a175-bd968a195df1",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "c49880621b47b7272aa465465eae95e198d1a2bafce89b9928afc1be5e9abe54"
+    "instanceId": "499352852cc9031b17b483ee614e41c0eb8111c0ebe0d38042c1f4730174b8c7"
   },
   "id": "RTyKXtRIipU9YPXd",
   "tags": []

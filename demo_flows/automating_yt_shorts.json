@@ -1,0 +1,468 @@
+{
+  "name": "automating_yt_shorts",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# Generating YT Shorts Automatically with Voice and Captions \n\n## 1) Review the Short Video Maker Front End to see video creation in action\n\n## 2) Understanding the Scenes & search terms\n\n## 3) Settings used for Audio Generation\n\n## 4) Which manual steps can be automated with n8n \n\n## 5) Using n8n with AI models to automate ",
+        "height": 460,
+        "width": 860,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        740,
+        -80
+      ],
+      "id": "ccdad3db-d346-4197-947a-7ec99e3c900b",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        60,
+        655
+      ],
+      "id": "5a7f849b-e798-4116-a70f-73e8ae4d6e76",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n    \"type\": \"object\",\n    \"properties\": {\n        \"video_title\": {\n          \"type\": \"string\",\n          \"description\": \"the title of the video we use on YouTube\"\n        },\n        \"scenes\": {\n            \"type\": \"array\",\n            \"description\": \"the scenes of the video\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"text\": {\n                        \"type\": \"string\",\n                        \"description\": \"the main content; this will be used to generate speech from\"\n                    },\n                    \"searchTerms\": {\n                        \"type\": \"array\",\n                        \"description\": \"the search terms to use to find background videos on pexels\",\n                        \"items\": {\n                            \"type\": \"string\"\n                        }\n                    }\n                },\n                \"required\": [\n                    \"text\",\n                    \"searchTerms\"\n                ]\n            }\n        }\n    },\n    \"required\": [\n        \"scenes\",\n        \"video_title\"\n    ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1088,
+        875
+      ],
+      "id": "0bd85089-d788-420c-9b82-d15d53ddb353",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a19f9caa-f1aa-4ff0-a270-59248eeb27dd",
+              "name": "SERVER_URL",
+              "value": "http://127.0.0.1:3123",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        655
+      ],
+      "id": "7025fe91-23c8-4441-85f8-dd55b3ef3ed3",
+      "name": "Configure"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=I'm creating a video programmatically using an API.\nThe API needs scenes to work with.\nEach scene requires a text, that will be transformed to speech, and 2-3 one-word search terms, that would be used to search background videos in the pexels api.\n\nCreate a short, 2 scene video about how important it is to learn automating with n8n",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        940,
+        660
+      ],
+      "id": "6a73b9c9-7cd8-44f1-8432-6b1956baa4f4",
+      "name": "Generate content",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configure').item.json.SERVER_URL }}/api/short-video",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"scenes\": {{ JSON.stringify($('Generate content').item.json.output.scenes, null, 2) }},\n  \"config\": {\n    \"paddingBack\": 1500,\n    \"music\": \"{{ $json.output.musicTag }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1692,
+        655
+      ],
+      "id": "8994780e-25ac-4541-88da-84b0f278af42",
+      "name": "Start generating the video"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1912,
+        655
+      ],
+      "id": "82efc2bd-4896-4aba-b051-39c7bcf546ae",
+      "name": "Wait",
+      "webhookId": "fe4501f9-3334-4fc8-b3dd-83ea0ebb14a2"
+    },
+    {
+      "parameters": {
+        "url": "=http://127.0.0.1:3123/api/short-video/{{ $('Start generating the video').item.json.videoId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2572,
+        655
+      ],
+      "id": "34f6685c-db65-4eae-af17-4625133678cb",
+      "name": "Download the video",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Configure').item.json.SERVER_URL }}/api/short-video/{{ $('Start generating the video').item.json.videoId }}/status",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2132,
+        580
+      ],
+      "id": "d290e4fd-e267-4a9a-b422-77d6f5ea61e0",
+      "name": "Check video status",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6cc1bd80-2bb7-47b6-950e-be3d6a36a965",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "ready",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2352,
+        655
+      ],
+      "id": "d22cf476-edce-4212-a58d-a94c18641250",
+      "name": "Ready?"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.SERVER_URL }}/api/music-tags",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        500,
+        655
+      ],
+      "id": "74edaa3c-a8f4-4492-968c-fbd67ac50f9d",
+      "name": "Get music tags"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n    \"type\": \"object\",\n    \"properties\": {\n        \"musicTag\": {\n            \"type\": \"string\",\n            \"description\": \"the selected music tag that goes well with the video\"\n        }\n    },\n    \"required\": [\n        \"musicTag\"\n    ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1404,
+        875
+      ],
+      "id": "a1e5fccd-a9ea-4c5a-95c1-e3c2730ea6f1",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=I'm generating a video programmatically using an API. I've already generated the scenes, and your task is to find the right music tag for he video.\n\n<VideoScenes>\n{{ $json.output.scenes.map(item => item.text).map(item => `<VideoScene>${item}</VideoScene>`).join('\\n') }}\n</VideoScenes>\n\n<MusicTags>\n{{ $('Group the music tags').item.json.data.map(item => `<MusicTag>${item}</MusicTag>`).join('\\n') }}\n</MusicTags>",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        1316,
+        655
+      ],
+      "id": "ac6ef1cb-c79b-411c-bda2-b68845ee4ef3",
+      "name": "Pick the right music",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        720,
+        655
+      ],
+      "id": "afe2715b-7bdf-46ca-9fa8-54e63a9281b3",
+      "name": "Group the music tags"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        960,
+        880
+      ],
+      "id": "fe947c26-24f5-4a00-bfde-2fc150764a13",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "lVmvnKPnDF7sOcNj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Generating Video",
+        "height": 400,
+        "width": 1140
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1640,
+        500
+      ],
+      "typeVersion": 1,
+      "id": "d4ece3d4-ff48-4e79-9ce8-3d244ca4ff71",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Generating Text & Tags",
+        "height": 520,
+        "width": 1140,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        500
+      ],
+      "typeVersion": 1,
+      "id": "1f654ab7-5902-4a92-8153-a4b7fd4e3e47",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Configure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate content",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configure": {
+      "main": [
+        [
+          {
+            "node": "Get music tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate content": {
+      "main": [
+        [
+          {
+            "node": "Pick the right music",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Check video status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download the video": {
+      "main": [
+        []
+      ]
+    },
+    "Start generating the video": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check video status": {
+      "main": [
+        [
+          {
+            "node": "Ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ready?": {
+      "main": [
+        [
+          {
+            "node": "Download the video",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get music tags": {
+      "main": [
+        [
+          {
+            "node": "Group the music tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Pick the right music",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick the right music": {
+      "main": [
+        [
+          {
+            "node": "Start generating the video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Group the music tags": {
+      "main": [
+        [
+          {
+            "node": "Generate content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate content",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Pick the right music",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2886ff0b-422a-4768-9771-c33f5261239d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c6af05edacad81322db093f662e60d8177e26a50481b266555e9e00a3fddd6d9"
+  },
+  "id": "WoOoBZfkgIWiIKYZ",
+  "tags": []
+}
