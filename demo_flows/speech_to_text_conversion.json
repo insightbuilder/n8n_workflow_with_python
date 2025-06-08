@@ -1,0 +1,328 @@
+{
+  "name": "audio_to_text",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -120
+      ],
+      "id": "19e87035-e346-47b5-a192-f1758544de3a",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fileSelector": "/run/media/uberdev/edrv/raw_videos/audacity_projects/preface.mp3",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        40,
+        -120
+      ],
+      "id": "1e23bf59-99b9-4ba8-b6c3-65d3b8ba738a",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8000/transcribe",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        320,
+        -120
+      ],
+      "id": "e20a5509-baf4-41db-86e4-ba3f1c592240",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:7860/gradio_api/call/create",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"data\": [\n    \"{{ $json.Speech }}\",\n\t\"af_alloy\",\n\t\"en-us\",\n\t\"af_alloy\"\n]} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -260,
+        160
+      ],
+      "id": "39fef5d1-4f97-4498-a3a5-bc6e9e385636",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Text to Speech",
+        "formDescription": "Form to collect the text data",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Speech",
+              "placeholder": "Enter your text here"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -520,
+        160
+      ],
+      "id": "7eb0be30-31a1-46f6-8302-bb02ecdbcb64",
+      "name": "On form submission",
+      "webhookId": "2e26611e-089b-48ce-a243-1ce9a83e79d6"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.download_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        200
+      ],
+      "id": "1e8d3aac-8467-451b-b489-f46285ddddb3",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json[\"data\"];\nconst lines = raw.split(\"\\n\");\n\nlet status = null;\nlet data = null;\n\nfor (const line of lines) {\n  if (line.startsWith(\"event:\")) {\n    status = line.replace(\"event: \", \"\").trim();\n  }\n  if (line.startsWith(\"data:\")) {\n    const jsonStr = line.replace(\"data: \", \"\");\n    try {\n      data = JSON.parse(jsonStr);\n    } catch (e) {\n      data = null;\n    }\n  }\n}\n\nreturn [\n  {\n    json: {\n      status,\n      download_url: data?.[0]?.url ?? null,\n      original_filename: data?.[0]?.orig_name ?? null,\n      transcript: data?.[1] ?? null\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        160
+      ],
+      "id": "909a1513-3f70-4764-9a7a-e9433c982b67",
+      "name": "Code"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -40,
+        160
+      ],
+      "id": "5baa00d4-d918-458e-a8d6-65cd540c9188",
+      "name": "Wait",
+      "webhookId": "8482593b-4699-4b64-a514-d036dc31dea7"
+    },
+    {
+      "parameters": {
+        "url": "=http://127.0.0.1:7860/gradio_api/call/create/{{ $json.event_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        180,
+        160
+      ],
+      "id": "0b56c3f9-04bf-4116-bcbc-10cb9886fd08",
+      "name": "check_status"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "complete",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1ebac1ea-df6a-4f49-b3cb-0fdaf33829a5"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "48dbf5f8-6d59-448a-8207-81dee1676387",
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "complete",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        620,
+        160
+      ],
+      "id": "6ec2c200-acff-420b-9758-db3b3fd2f973",
+      "name": "Switch"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "check_status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check_status": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "303c1f0f-99e6-462e-95e8-08b3211d8cf8",
+  "meta": {
+    "instanceId": "c6af05edacad81322db093f662e60d8177e26a50481b266555e9e00a3fddd6d9"
+  },
+  "id": "riy23d9VRjATWyu0",
+  "tags": []
+}
